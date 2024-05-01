@@ -9,9 +9,9 @@ use App\Http\Resources\itemsResource;
 use App\Http\Responses\Response;
 use App\Models\Item;
 use App\Services\itemService;
-use App\Services\UserServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class itemController extends Controller
 {
@@ -34,12 +34,12 @@ class itemController extends Controller
         }
     }
 
-    public function show($id): JsonResponse
+    public function show(Item $item): JsonResponse
     {
        $data = [];
         try {
-            $data = $this->itemService->show($id);
-            return Response::Success($data['item'], $data['message'], $data['code']);
+            $data = $this->itemService->show($item);
+            return Response::Success($data['Item'], $data['message'], $data['code']);
         } catch (Throwable $th) {
             return Response::Error($data, $th->getMessage());
         }
@@ -50,7 +50,7 @@ class itemController extends Controller
         $data =[];
         try {
             $data=$this->itemService->create($dataItem);
-            return Response::Success($data['item'],$data['message']);
+            return Response::Success($data['Item'],$data['message']);
         }
         catch (Throwable $th){
             $message=$th->getMessage();
@@ -58,13 +58,13 @@ class itemController extends Controller
         }
     }
 
-    public function update(updateItemsRequests $request,$id): JsonResponse
+    public function update(updateItemsRequests $request,Item $item): JsonResponse
     {
         $dataItem=$request->validate();
         $data = [];
         try {
-            $data = $this->itemService->update($dataItem, $id);
-            return Response::Success($data['item'], $data['message'], $data['code']);
+            $data = $this->itemService->update($dataItem, $item);
+            return Response::Success($data['Item'], $data['message'], $data['code']);
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::Error($data, $message);
@@ -72,12 +72,12 @@ class itemController extends Controller
     }
 
 
-    public function destroy($id): JsonResponse
+    public function destroy(Item $item): JsonResponse
     {
         $data = [];
         try {
-            $data = $this->itemService->destroy($id);
-            return Response::Success($data['item'], $data['message'], $data['code']);
+            $data = $this->itemService->destroy($item);
+            return Response::Success($data['Item'], $data['message'], $data['code']);
         } catch (Throwable $th) {
             return Response::Error($data, $th->getMessage());
         }
