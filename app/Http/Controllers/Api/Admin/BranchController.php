@@ -24,66 +24,46 @@ class BranchController extends Controller
     }
     public function index(): JsonResponse
     {
-        $data =[];
-        try {
+
             $data=$this->branchService->index();
             return Response::Success($data['Branch'],$data['message']);
-        }
-        catch (Throwable $th){
-            $message=$th->getMessage();
-            return Response::Error($data,$message);
-        }
+
     }
 
     public function show(Branch $branch): JsonResponse
     {
-        $data = [];
-        try {
+
             $data = $this->branchService->show($branch);
             return Response::Success($data['Branch'], $data['message'], $data['code']);
-        } 
-        catch (Throwable $th) {
-            return Response::Error($data, $th->getMessage());
-        }
+
     }
-    
+
 
     public function create(StoreBranchRequest $request): JsonResponse
     {
         $newData=$request->validate();
-        $data =[];
-        try {
+
             $data=$this->branchService->create($newData);
             return Response::Success($data['Branch'],$data['message']);
-        }
-        catch (Throwable $th){
-            return Response::Error($data, $th->getMessage());
-        }
+
     }
 
 
     public function update(UpdateBranchRequest $request, Branch $branch): JsonResponse
     {
         $newData=$request->validate();
-        $data = [];
-        try {
+
             $data = $this->branchService->update($newData, $branch);
             return Response::Success($data['Branch'], $data['message'], $data['code']);
-        } catch (Throwable $th) {
-            return Response::Error($data, $th->getMessage());
-        }
+
     }
 
-    
+
     public function destroy(Branch $branch): JsonResponse
     {
-        $data = [];
-        try {
+
             $data = $this->branchService->destroy($branch);
             return Response::Success($data['Branch'], $data['message'], $data['code']);
-        } 
-        catch (Throwable $th) {
-            return Response::Error($data, $th->getMessage());
-        }
+
     }
 }

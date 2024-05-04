@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Item;
+
+use Illuminate\Database\Eloquent\Model;
 
 class baseServics
 {
@@ -19,17 +20,9 @@ class baseServics
     public function index():array
     {
         $modelName = class_basename($this->model);
-        if(Auth::user()->hasRole('keeper')){
-            //get warehouse item for this user
-        }
-        elseif (Auth::user()->hasRole('donor'))
-        {
-            //get warehouse item for this user
-        }
-        else
-        {
-            $data = model::query();
-        }
+
+        $user_id= Auth()->user()->id;
+        $data = model::where('user_id', $user_id)->first();
         $data= $data->latest()->paginate(10);
         if ($data->isEmpty()){
             $message="There are no $modelName at the moment";
@@ -43,17 +36,10 @@ class baseServics
     {
         $modelName = class_basename($this->model);
 
-        if(Auth::user()->hasRole('keeper')){
-            //get warehouse item for this user
-        }
-        elseif (Auth::user()->hasRole('donor'))
-        {
-            //get warehouse item for this user
-        }
-        else
-        {
-            $data = model::query()->find($id);
-        }
+        $user_id= Auth()->user()->id;
+        $data = model::where('user_id', $user_id)
+            ->where('id', $id)
+            ->first();
 
         if ($data->isEmpty()){
             $message="There are no $modelName at the moment";
@@ -67,7 +53,7 @@ class baseServics
     {
         $modelName = class_basename($this->model);
 
-        $data=model::query()->create();
+        $data=model::create();
         $message="$modelName created successfully";
         return ['message'=>$message,"$modelName"=>$data];
 
@@ -76,14 +62,14 @@ class baseServics
     {
         $modelName = class_basename($this->model);
 
-        $data=model::query()->find($id);
+        $data=model::find($id);
         if(!is_null($data))
         {
             if(Auth::user()->hasRole('admin'))
             {
-                model::query()->find($id)->update();
+                model::find($id)->update();
             }
-            $data=model::query()->find($id);
+            $data=model::find($id);
             $message="$modelName update successfully";
             $code=200;
         }else
@@ -97,12 +83,12 @@ class baseServics
     {
         $modelName = class_basename($this->model);
 
-        $data=model::query()->find($id);
+        $data=model::find($id);
         if(!is_null($data))
         {
             if(Auth::user()->hasRole('admin'))
             {
-                $data= model::query()->find($id)->delete();
+                $data= model::find($id)->delete();
             }
             $message="$modelName delete successfully";
             $code=200;

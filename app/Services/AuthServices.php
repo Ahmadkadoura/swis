@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class UserServices
+class AuthServices
 {
     public function register($request):array
     {
-        $User=User::query()->create([
+        $User=User::create([
             'name'=>$request['name'],
             'email'=>$request['email'],
             'password'=>Hash::make($request['name']),
         ]);
-        $roles=Role::query()->where('name','clientDDD');
+        $roles=Role::where('name','clientDDD');
         $User->assignRole($roles);
 
         $permissions=$roles->permissions()->pluck()->toArray();
@@ -25,7 +25,7 @@ class UserServices
 
         $User->load('roles','permissions');
 
-        $User=User::query()->find($User['id']);
+        $User=User::find($User['id']);
         $User= $this->RolesAndPermissions($User);
         $User['token']=$User->createToken("token")->plainTextToken;
 
@@ -35,8 +35,7 @@ class UserServices
     }
     public function login($request):array
     {
-        $user= User::query()
-            ->where('email',$request['email'])
+        $user= User::where('email',$request['email'])
             ->first();
         if(!is_null($user)){
             if(!Auth::attempt($request->only(['email','password']))){

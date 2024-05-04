@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Branch;
+use Illuminate\Database\Eloquent\Model;
 
 class branchService extends baseServics
 {

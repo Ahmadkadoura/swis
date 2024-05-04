@@ -38,7 +38,7 @@ class RolesPermssionsSeeder extends Seeder
             'password'=>bcrypt('password'),
         ]);
         $adminUser->assignRole($adminRole);
-        $permissions=$adminRole->permissions()->pluck()->toArray();
+        $permissions=$adminRole->permissions()->pluck('name')->toArray();
         $adminUser->givePermissionTo($permissions);
 
 
