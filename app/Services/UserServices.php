@@ -9,14 +9,17 @@ use Spatie\Permission\Models\Role;
 
 class UserServices
 {
-    public function register($request):array
+    public function register($request)
     {
         $User=User::query()->create([
             'name'=>$request['name'],
             'email'=>$request['email'],
-            'password'=>Hash::make($request['name']),
+            'password'=>Hash::make($request['password']),
+            'contact_email' => $request['contact_email'],
+            'phone' => $request['phone'],
+            'code' => $request['code'],
         ]);
-        $roles=Role::query()->where('name','clientDDD');
+        $roles=Role::query()->where('name','clientDDD')->get();
         $User->assignRole($roles);
 
         $permissions=$roles->permissions()->pluck()->toArray();
@@ -26,7 +29,7 @@ class UserServices
         $User->load('roles','permissions');
 
         $User=User::query()->find($User['id']);
-        $User= $this->RolesAndPermissions($User);
+        $User = $this->RolesAndPermissions($User);
         $User['token']=$User->createToken("token")->plainTextToken;
 
         $message='User created successfully.';
@@ -39,8 +42,8 @@ class UserServices
             ->where('email',$request['email'])
             ->first();
         if(!is_null($user)){
-            if(!Auth::attempt($request->only(['email','password']))){
-                $message= 'User email & password dose not match with our record.';
+            if( $user->password != $request['password']){
+                $message= 'User email & password does not match with our record.';
                 $code= 401;
             }else{
                 $user= $this->RolesAndPermissions($user);
@@ -58,9 +61,9 @@ class UserServices
     public function logout():array
     {
         $user=Auth::user();
-        if(!is_null(Auth::user()))
+        if(!is_null($user))
         {
-            Auth::user()->currentAccessToken()->delete();
+            $user->currentAccessToken()->delete();
             $message='User logged out successfully.';
             $code=200;
         }else{
@@ -86,7 +89,13 @@ class UserServices
             $permissions=$permission['name'];
         }
         unset($user['permissions']);
-        $user['permissions']=$roles;
+        $user['permissions']=$permissions;
+
+        // $roles = $user->roles->pluck('name')->toArray();
+        // $permissions = $user->permissions->pluck('name')->toArray();
+
+        // $user['roles'] = $roles;
+        // $user['permissions'] = $permissions;
 
         return $user;
     }
