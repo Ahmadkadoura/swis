@@ -7,19 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class UserServices
+class AuthServices
 {
-    public function register($request)
+    public function register($request):array
     {
-        $User=User::query()->create([
+        $User=User::create([
             'name'=>$request['name'],
             'email'=>$request['email'],
-            'password'=>Hash::make($request['password']),
-            'contact_email' => $request['contact_email'],
-            'phone' => $request['phone'],
-            'code' => $request['code'],
+            'password'=>Hash::make($request['name']),
         ]);
-        $roles=Role::query()->where('name','clientDDD')->get();
+        $roles=Role::where('name','clientDDD');
         $User->assignRole($roles);
 
         $permissions=$roles->permissions()->pluck()->toArray();
@@ -28,8 +25,8 @@ class UserServices
 
         $User->load('roles','permissions');
 
-        $User=User::query()->find($User['id']);
-        $User = $this->RolesAndPermissions($User);
+        $User=User::find($User['id']);
+        $User= $this->RolesAndPermissions($User);
         $User['token']=$User->createToken("token")->plainTextToken;
 
         $message='User created successfully.';
@@ -38,12 +35,11 @@ class UserServices
     }
     public function login($request):array
     {
-        $user= User::query()
-            ->where('email',$request['email'])
+        $user= User::where('email',$request['email'])
             ->first();
         if(!is_null($user)){
-            if( $user->password != $request['password']){
-                $message= 'User email & password does not match with our record.';
+            if(!Auth::attempt($request->only(['email','password']))){
+                $message= 'User email & password dose not match with our record.';
                 $code= 401;
             }else{
                 $user= $this->RolesAndPermissions($user);
@@ -61,9 +57,9 @@ class UserServices
     public function logout():array
     {
         $user=Auth::user();
-        if(!is_null($user))
+        if(!is_null(Auth::user()))
         {
-            $user->currentAccessToken()->delete();
+            Auth::user()->currentAccessToken()->delete();
             $message='User logged out successfully.';
             $code=200;
         }else{
@@ -89,13 +85,7 @@ class UserServices
             $permissions=$permission['name'];
         }
         unset($user['permissions']);
-        $user['permissions']=$permissions;
-
-        // $roles = $user->roles->pluck('name')->toArray();
-        // $permissions = $user->permissions->pluck('name')->toArray();
-
-        // $user['roles'] = $roles;
-        // $user['permissions'] = $permissions;
+        $user['permissions']=$roles;
 
         return $user;
     }
