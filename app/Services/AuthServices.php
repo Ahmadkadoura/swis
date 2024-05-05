@@ -14,9 +14,12 @@ class AuthServices
         $User=User::create([
             'name'=>$request['name'],
             'email'=>$request['email'],
-            'password'=>Hash::make($request['name']),
+            'password'=>Hash::make($request['password']),
+            'contact_email' => $request['contact_email'],
+            'phone' => $request['phone'],
+            'code' => $request['code'],
         ]);
-        $roles=Role::where('name','clientDDD');
+        $roles=Role::where('name','clientDDD')->get();
         $User->assignRole($roles);
 
         $permissions=$roles->permissions()->pluck()->toArray();
@@ -38,7 +41,7 @@ class AuthServices
         $user= User::where('email',$request['email'])
             ->first();
         if(!is_null($user)){
-            if(!Auth::attempt($request->only(['email','password']))){
+            if( $user->password != $request['password']){
                 $message= 'User email & password dose not match with our record.';
                 $code= 401;
             }else{
@@ -57,9 +60,9 @@ class AuthServices
     public function logout():array
     {
         $user=Auth::user();
-        if(!is_null(Auth::user()))
+        if(!is_null($user))
         {
-            Auth::user()->currentAccessToken()->delete();
+            $user->currentAccessToken()->delete();
             $message='User logged out successfully.';
             $code=200;
         }else{
@@ -85,7 +88,13 @@ class AuthServices
             $permissions=$permission['name'];
         }
         unset($user['permissions']);
-        $user['permissions']=$roles;
+        $user['permissions']=$permissions;
+
+        // $roles = $user->roles->pluck('name')->toArray();
+        // $permissions = $user->permissions->pluck('name')->toArray();
+
+        // $user['roles'] = $roles;
+        // $user['permissions'] = $permissions;
 
         return $user;
     }
