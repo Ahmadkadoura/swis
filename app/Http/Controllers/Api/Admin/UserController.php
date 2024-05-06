@@ -32,12 +32,12 @@ class UserController extends Controller
     {
 
         $data = $this->userService->show($user);
-        return Response::Success($data['User'], $data['message'], $data['code']);
+        return Response::Success($data['User'], $data['message']);
 
     }
-    public function create(storeUserRequests $request): JsonResponse
+    public function store(storeUserRequests $request): JsonResponse
     {
-        $dataUser=$request->validate();
+        $dataUser=$request->validated();
 
         $data=$this->userService->create($dataUser);
         return Response::Success($data['User'],$data['message']);
@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function update(updateUserRequests $request,User $user): JsonResponse
     {
-        $dataUser=$request->validate();
+        $dataUser=$request->validated();
 
         $data = $this->userService->update($dataUser, $user);
         return Response::Success($data['User'], $data['message'], $data['code']);

@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests\Driver;
 
+use App\Http\Responses\Response;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class StoreDriverRequests extends FormRequest
 {
@@ -26,8 +29,9 @@ class StoreDriverRequests extends FormRequest
             'vehicle_number' => ['required', 'string'],
             'national_id' => ['required', 'string'],
             'name' => ['required', 'string'],
-            'phone' => ['required','phone:Auto',Rule::unique('drivers', 'phone')],
+            'phone' => ['required',Rule::unique('drivers', 'phone')],
             'transportation_company_name' => ['required', 'string'],
         ];
     }
+
 }

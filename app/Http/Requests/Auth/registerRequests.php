@@ -26,10 +26,12 @@ class registerRequests extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'string','min:4'],
+            'email' => ['required','email'],
             'password' => ['required', 'confirmed', 'min:8'],
             'contact_email' => ['required', 'string','email'],
-            'name' => ['required', 'string','min:4'],
-            'phone' => ['required','phone:Auto',Rule::unique('drivers', 'phone')],
+            'phone' => ['required','phone:Auto',Rule::unique('users', 'phone')],
+            'code' => ['required','string'],
             'photo' => [ 'image' , 'mimes:jpeg,jpg,png,gif'],
         ];
     }

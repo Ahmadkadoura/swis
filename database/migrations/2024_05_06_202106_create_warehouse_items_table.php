@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\sectorType;
-use App\Enums\unitType;
+use App\Models\Item;
+use App\Models\Warehouse;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('warehouse_items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('code');
-            $table->string('sectorType');
-            $table->string('unitType');
-            $table->integer('size');
-            $table->integer('weight');
+            $table->foreignIdFor(Warehouse::class);
+            $table->foreignIdFor(Item::class);
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('warehouse_items');
     }
 };

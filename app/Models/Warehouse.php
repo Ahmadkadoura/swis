@@ -24,5 +24,8 @@ class Warehouse extends Model
     public function branch(){
         return $this->belongsTo(Branch::class);
     }
+    public function warehouse(){
+        return$this->hasMany(WarehouseItem::class);
+    }
 
 }
