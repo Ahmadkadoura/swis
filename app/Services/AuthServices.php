@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 
-class AuthServices
+class AuthServices 
 {
+    
     public function register($request):array
     {
         $User=User::create([
