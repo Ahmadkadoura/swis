@@ -18,8 +18,11 @@ class AuthServices
             'name'=>$request['name'],
             'email'=>$request['email'],
             'password'=>Hash::make($request['password']),
+            'contact_email' => $request['contact_email'],
+            'phone' => $request['phone'],
+            'code' => $request['code'],
         ]);
-        $roles=Role::where('name','clientDDD');
+        $roles=Role::where('name','clientDDD')->get();
         $User->assignRole($roles);
 
         $permissions=$roles->permissions()->pluck()->toArray();
@@ -41,7 +44,7 @@ class AuthServices
         $user= User::where('email',$request['email'])
             ->first();
         if(!is_null($user)){
-            if(!Auth::attempt(['email' => $request['email'],'password' => $request['password'] ])){
+            if( $user->password != $request['password']){
                 $message= 'User email & password dose not match with our record.';
                 $code= 401;
             }else{
@@ -57,18 +60,19 @@ class AuthServices
         }
         return['User'=>$user,'message'=>$message,'code'=>$code];
     }
-    public function logout(Request $request):array
-    {   
-        if(Auth::user())
+    public function logout():array
+    {
+        $user=Auth::user();
+        if(!is_null($user))
         {
-            $request->user()->currentAccessToken()->delete();
+            $user->currentAccessToken()->delete();
             $message='User logged out successfully.';
             $code=200;
         }else{
             $message='invalid token.';
             $code=404;
         }
-        return['User'=>$request->user(),'message'=>$message,'code'=>$code];
+        return['User'=>$user,'message'=>$message,'code'=>$code];
     }
 
     public function RolesAndPermissions($user)
@@ -88,6 +92,12 @@ class AuthServices
         }
         unset($user['permissions']);
         $user['permissions']=$permissions;
+
+        // $roles = $user->roles->pluck('name')->toArray();
+        // $permissions = $user->permissions->pluck('name')->toArray();
+
+        // $user['roles'] = $roles;
+        // $user['permissions'] = $permissions;
 
         return $user;
     }
