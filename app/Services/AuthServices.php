@@ -2,19 +2,22 @@
 
 namespace App\Services;
 
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 
-class AuthServices
+class AuthServices 
 {
+    
     public function register($request):array
     {
         $User=User::create([
             'name'=>$request['name'],
             'email'=>$request['email'],
-            'password'=>Hash::make($request['name']),
+            'password'=>Hash::make($request['password']),
         ]);
         $roles=Role::where('name','clientDDD');
         $User->assignRole($roles);
@@ -38,7 +41,7 @@ class AuthServices
         $user= User::where('email',$request['email'])
             ->first();
         if(!is_null($user)){
-            if(!Auth::attempt($request->only(['email','password']))){
+            if(!Auth::attempt(['email' => $request['email'],'password' => $request['password'] ])){
                 $message= 'User email & password dose not match with our record.';
                 $code= 401;
             }else{
@@ -54,19 +57,18 @@ class AuthServices
         }
         return['User'=>$user,'message'=>$message,'code'=>$code];
     }
-    public function logout():array
-    {
-        $user=Auth::user();
-        if(!is_null(Auth::user()))
+    public function logout(Request $request):array
+    {   
+        if(Auth::user())
         {
-            Auth::user()->currentAccessToken()->delete();
+            $request->user()->currentAccessToken()->delete();
             $message='User logged out successfully.';
             $code=200;
         }else{
             $message='invalid token.';
             $code=404;
         }
-        return['User'=>$user,'message'=>$message,'code'=>$code];
+        return['User'=>$request->user(),'message'=>$message,'code'=>$code];
     }
 
     public function RolesAndPermissions($user)
@@ -85,7 +87,7 @@ class AuthServices
             $permissions=$permission['name'];
         }
         unset($user['permissions']);
-        $user['permissions']=$roles;
+        $user['permissions']=$permissions;
 
         return $user;
     }
