@@ -22,11 +22,11 @@ class UpdateBranchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => 'string|min:4',
-            'code'      => 'string',
-            'parent_id' => 'integer',
-            'phone'     => 'regex:/(09)[0-9]{8}|unique:branches,phone', //might have to exclude the current phone
-            'address'   => 'string',
+            'name' => 'string|min:4',
+            'code' => 'string',
+            'parent_id' => 'nullable|integer',
+            'phone' => 'string|unique:branches,phone',
+            'address' => 'string',
         ];
     }
 }

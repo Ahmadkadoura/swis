@@ -22,4 +22,7 @@ class Item extends Model
         'unitType'=>unitType::class ,
         'sectorType'=>sectorType::class ,
     ];
+    public function warehouse(){
+        return $this->hasMany(WarehouseItem::class);
+    }
 }

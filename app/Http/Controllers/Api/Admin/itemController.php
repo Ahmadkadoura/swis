@@ -25,7 +25,7 @@ class itemController extends Controller
     {
 
             $data=$this->itemService->index();
-            return Response::Success($data['item'],$data['message']);
+            return Response::Success($data['Item'],$data['message']);
 
     }
 
@@ -33,12 +33,12 @@ class itemController extends Controller
     {
 
             $data = $this->itemService->show($item);
-            return Response::Success($data['Item'], $data['message'], $data['code']);
+            return Response::Success($data['Item'], $data['message']);
 
     }
-    public function create(storeItemsRequests $request): JsonResponse
+    public function store(storeItemsRequests $request): JsonResponse
     {
-        $dataItem=$request->validate();
+        $dataItem=$request->validated();
 
             $data=$this->itemService->create($dataItem);
             return Response::Success($data['Item'],$data['message']);
@@ -47,7 +47,7 @@ class itemController extends Controller
 
     public function update(updateItemsRequests $request,Item $item): JsonResponse
     {
-        $dataItem=$request->validate();
+        $dataItem=$request->validated();
 
             $data = $this->itemService->update($dataItem, $item);
             return Response::Success($data['Item'], $data['message'], $data['code']);

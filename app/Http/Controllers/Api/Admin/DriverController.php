@@ -26,27 +26,27 @@ class DriverController extends Controller
 
             $data=$this->driverService->index();
             return Response::Success($data['Driver'],$data['message']);
-        
+
     }
 
     public function show(Driver $driver): JsonResponse
     {
 
             $data = $this->driverService->show($driver);
-            return Response::Success($data['Driver'], $data['message'], $data['code']);
+            return Response::Success($data['Driver'], $data['message']);
 
     }
-    public function create(StoreDriverRequests $request): JsonResponse
+    public function store(StoreDriverRequests $request): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data=$this->driverService->create($newData);
-
+        return Response::Success($data['Driver'], $data['message']);
     }
 
     public function update(updateDriverRequests $request,Driver $driver): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
         $data = $this->driverService->update($newData, $driver);
         return Response::Success($data['Driver'], $data['message'], $data['code']);
 
@@ -57,7 +57,7 @@ class DriverController extends Controller
     {
 
             $data = $this->driverService->destroy($driver);
-            return Response::Success($data['driver'], $data['message'], $data['code']);
+            return Response::Success($data['Driver'], $data['message'], $data['code']);
 
     }
 

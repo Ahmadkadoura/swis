@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Driver;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class updateDriverRequests extends FormRequest
 {

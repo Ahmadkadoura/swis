@@ -37,14 +37,14 @@ class WarehouseController extends Controller
     {
 
             $data = $this->warehouseService->show($warehouse);
-            return Response::Success($data['Warehouse'], $data['message'], $data['code']);
+            return Response::Success($data['Warehouse'], $data['message']);
 
     }
 
 
-    public function create(StoreWarehouseRequest $request): JsonResponse
+    public function store(StoreWarehouseRequest $request): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data=$this->warehouseService->create($newData);
             return Response::Success($data['Warehouse'],$data['message']);
@@ -55,7 +55,7 @@ class WarehouseController extends Controller
 
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data = $this->warehouseService->update($newData, $warehouse);
             return Response::Success($data['Warehouse'], $data['message'], $data['code']);

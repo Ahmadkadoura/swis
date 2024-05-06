@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class baseServics
 {
@@ -21,9 +22,7 @@ class baseServics
     {
         $modelName = class_basename($this->model);
 
-        $user_id= Auth()->user()->id;
-        $data = model::where('user_id', $user_id)->first();
-        $data= $data->latest()->paginate(10);
+        $data =$this->model::latest()->paginate(10);
         if ($data->isEmpty()){
             $message="There are no $modelName at the moment";
         }else
@@ -32,14 +31,12 @@ class baseServics
         }
         return ['message'=>$message,"$modelName"=>$data];
     }
-    public function show($id):array
+    public function show($model):array
     {
         $modelName = class_basename($this->model);
 
-        $user_id= Auth()->user()->id;
-        $data = model::where('user_id', $user_id)
-            ->where('id', $id)
-            ->first();
+
+        $data =$this->model::where('id',$model->id)->get();
 
         if ($data->isEmpty()){
             $message="There are no $modelName at the moment";
@@ -51,44 +48,49 @@ class baseServics
     }
     public function create($request):array
     {
-        $modelName = class_basename($this->model);
 
-        $data=model::create();
+        $modelName = class_basename($this->model);
+        $data=$this->model::create($request);
         $message="$modelName created successfully";
         return ['message'=>$message,"$modelName"=>$data];
 
     }
-    public function update($request,$id):array
+    public function update($request, $model): array
     {
+
+        $validatedData=$request;
         $modelName = class_basename($this->model);
 
-        $data=model::find($id);
-        if(!is_null($data))
-        {
-            if(Auth::user()->hasRole('admin'))
-            {
-                model::find($id)->update();
+       $data = $this->model::find($model->id);
+        if (!is_null($data)) {
+            if (Auth::user()->hasRole('admin')) {
+                // Update the model with the request data
+                $data->update($validatedData);
+
             }
-            $data=model::find($id);
-            $message="$modelName update successfully";
-            $code=200;
-        }else
-        {
-            $message="$modelName not found";
-            $code=404;
+            // Retrieve the updated data
+            $data = $this->model::find($model->id);
+
+            $message = "$modelName updated successfully";
+            $code = 200;
+        } else {
+            $message = "$modelName not found";
+            $code = 404;
         }
-        return ["$modelName"=>$data,'message'=>$message,'code'=>$code];
+
+        return ["$modelName" => $data, 'message' => $message, 'code' => $code];
     }
-    public function destroy($id):array
+
+    public function destroy($model):array
     {
         $modelName = class_basename($this->model);
 
-        $data=model::find($id);
-        if(!is_null($data))
+        $data=$this->model::find($model->id);
+        if(!is_null($model))
         {
             if(Auth::user()->hasRole('admin'))
             {
-                $data= model::find($id)->delete();
+                $data=$this->model::find($model->id)->delete();
             }
             $message="$modelName delete successfully";
             $code=200;

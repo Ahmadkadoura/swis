@@ -34,14 +34,14 @@ class BranchController extends Controller
     {
 
             $data = $this->branchService->show($branch);
-            return Response::Success($data['Branch'], $data['message'], $data['code']);
+            return Response::Success($data['Branch'], $data['message']);
 
     }
 
 
-    public function create(StoreBranchRequest $request): JsonResponse
+    public function store(StoreBranchRequest $request): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data=$this->branchService->create($newData);
             return Response::Success($data['Branch'],$data['message']);
@@ -51,7 +51,7 @@ class BranchController extends Controller
 
     public function update(UpdateBranchRequest $request, Branch $branch): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data = $this->branchService->update($newData, $branch);
             return Response::Success($data['Branch'], $data['message'], $data['code']);
