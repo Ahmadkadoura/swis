@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Branch\StoreBranchRequest;
 use App\Http\Requests\Branch\UpdateBranchRequest;
+use App\Http\Resources\BranchResource;
 use App\Models\Branch;
 use App\Services\branchService;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class BranchController extends Controller
     {
 
             $data=$this->branchService->index();
-            return Response::Success($data['Branch'],$data['message']);
+        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
@@ -34,7 +35,7 @@ class BranchController extends Controller
     {
 
             $data = $this->branchService->show($branch);
-            return Response::Success($data['Branch'], $data['message']);
+        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
@@ -44,7 +45,7 @@ class BranchController extends Controller
         $newData=$request->validated();
 
             $data=$this->branchService->create($newData);
-            return Response::Success($data['Branch'],$data['message']);
+        return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
@@ -54,16 +55,16 @@ class BranchController extends Controller
         $newData=$request->validated();
 
             $data = $this->branchService->update($newData, $branch);
-            return Response::Success($data['Branch'], $data['message'], $data['code']);
+        return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
 
-    public function destroy(Branch $branch): JsonResponse
+    public function destroy(Branch $branch)
     {
 
             $data = $this->branchService->destroy($branch);
-            return Response::Success($data['Branch'], $data['message'], $data['code']);
+        return [$data['message'],$data['code']];
 
     }
 }

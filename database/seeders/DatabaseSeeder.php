@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([BranchSeeder::class]);
         $this->call([ItemSeeder::class]);
         $this->call([WarehouseSedder::class]);
+        $this->call([WarehouseItemSeeder::class]);
+        $this->call([DonorSeeder::class]);
 
         // \App\Models\User::factory(10)->create();
 

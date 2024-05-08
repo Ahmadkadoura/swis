@@ -10,7 +10,6 @@ use App\Http\Responses\Response;
 use App\Models\User;
 use App\Services\userService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -20,19 +19,18 @@ class UserController extends Controller
         $this->userService = $userService;
         $this->middleware(['auth:sanctum']);
     }
-    public function index(): JsonResponse
+    public function index()
     {
 
         $data=$this->userService->index();
-        return Response::Success($data['User'],$data['message']);
-
+        return $this->showAll($data['User'],UserResource::class,$data['message']);
     }
 
     public function show(User $user): JsonResponse
     {
 
         $data = $this->userService->show($user);
-        return Response::Success($data['User'], $data['message']);
+        return $this->showAll($data['User'],UserResource::class,$data['message']);
 
     }
     public function store(storeUserRequests $request): JsonResponse
@@ -40,7 +38,7 @@ class UserController extends Controller
         $dataUser=$request->validated();
 
         $data=$this->userService->create($dataUser);
-        return Response::Success($data['User'],$data['message']);
+        return $this->showOne($data['User'],UserResource::class,$data['message']);
 
     }
 
@@ -49,15 +47,16 @@ class UserController extends Controller
         $dataUser=$request->validated();
 
         $data = $this->userService->update($dataUser, $user);
-        return Response::Success($data['User'], $data['message'], $data['code']);
+        return $this->showOne($data['User'],UserResource::class,$data['message']);
 
     }
 
 
-    public function destroy(User $user): JsonResponse
+    public function destroy(User $user)
     {
         $data = $this->userService->destroy($user);
-        return Response::Success($data['User'], $data['message'], $data['code']);
+
+      return [$data['message'],$data['code']];
 
     }
 

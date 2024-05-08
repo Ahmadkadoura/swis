@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\DonorController;
 use App\Http\Controllers\Api\Admin\DriverController;
 use App\Http\Controllers\Api\Admin\itemController;
 use App\Http\Controllers\Api\Admin\BranchController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\WarehouseController;
+use App\Http\Controllers\Api\Admin\WarehouseItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,11 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::apiResources([
-    'driver'    => DriverController::class,
-    'branch'    => BranchController::class,
-    'warehouse' => WarehouseController::class,
-    'user'      => UserController::class,
-    'item'      => itemController::class,
+    'driver'             => DriverController::class,
+    'branch'             => BranchController::class,
+    'warehouse'          => WarehouseController::class,
+    'user'               => UserController::class,
+    'donor'               => DonorController::class,
+    'item'               => itemController::class,
+    'warehouseItem'      => WarehouseItemController::class,
 ]);
 //Route::prefix('item')
 //    ->controller(itemController::class)

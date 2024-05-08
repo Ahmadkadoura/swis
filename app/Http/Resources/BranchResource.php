@@ -15,10 +15,13 @@ class BranchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'        => $this->id, 
+            'id'        => $this->id,
             'name'      => $this->name,
             'code'      => $this->code,
-            'parent_id' => $this->parent_id,
+            'main_branch' => [
+                'id' =>$this->parent_id,
+                'name' =>$this->parentBranch->name ?? null,
+            ],
             'phone'     => $this->phone,
             'address'   => $this->address,
         ];

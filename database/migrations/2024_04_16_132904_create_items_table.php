@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('unitType');
             $table->integer('size');
             $table->integer('weight');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

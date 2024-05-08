@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Item;
-use App\Models\Warehouse;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse_items', function (Blueprint $table) {
+        Schema::create('donors', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Warehouse::class)->onDelete('cascade');
-            $table->foreignIdFor(Item::class);
+            $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse_items');
+        Schema::dropIfExists('donors');
     }
 };

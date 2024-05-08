@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class WarehouseItem extends Model
+class Donor extends Model
 {
     use HasFactory;
-    protected $fillable=[
-        'Warehouse_id',
-        'Item_id',
+    protected $fillable = [
+        'user_id',
         'quantity',
     ];
-    public function item():BelongsTo
+
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(User::class);
     }
 }

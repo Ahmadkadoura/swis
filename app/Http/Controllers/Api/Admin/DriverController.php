@@ -25,7 +25,7 @@ class DriverController extends Controller
     {
 
             $data=$this->driverService->index();
-            return Response::Success($data['Driver'],$data['message']);
+        return $this->showAll($data['Driver'],DriverResource::class,$data['message']);
 
     }
 
@@ -33,7 +33,7 @@ class DriverController extends Controller
     {
 
             $data = $this->driverService->show($driver);
-            return Response::Success($data['Driver'], $data['message']);
+        return $this->showAll($data['Driver'],DriverResource::class,$data['message']);
 
     }
     public function store(StoreDriverRequests $request): JsonResponse
@@ -41,23 +41,23 @@ class DriverController extends Controller
         $newData=$request->validated();
 
             $data=$this->driverService->create($newData);
-        return Response::Success($data['Driver'], $data['message']);
+        return $this->showOne($data['Driver'],DriverResource::class,$data['message']);
     }
 
     public function update(updateDriverRequests $request,Driver $driver): JsonResponse
     {
         $newData=$request->validated();
         $data = $this->driverService->update($newData, $driver);
-        return Response::Success($data['Driver'], $data['message'], $data['code']);
+        return $this->showOne($data['Driver'],DriverResource::class,$data['message']);
 
     }
 
 
-    public function destroy(Driver $driver): JsonResponse
+    public function destroy(Driver $driver)
     {
 
             $data = $this->driverService->destroy($driver);
-            return Response::Success($data['Driver'], $data['message'], $data['code']);
+            return [ $data['message'], $data['code']];
 
     }
 

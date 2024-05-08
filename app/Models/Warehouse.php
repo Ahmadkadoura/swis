@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
@@ -24,8 +25,16 @@ class Warehouse extends Model
     public function branch(){
         return $this->belongsTo(Branch::class);
     }
-    public function warehouse(){
+    public function warehouseItem(){
         return$this->hasMany(WarehouseItem::class);
+    }
+    public function parentWarehouse():BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class, 'parent_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

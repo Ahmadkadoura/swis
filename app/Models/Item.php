@@ -17,12 +17,13 @@ class Item extends Model
         'unitType',
         'size',
         'weight',
+        'quantity',
     ];
     protected $casts=[
         'unitType'=>unitType::class ,
         'sectorType'=>sectorType::class ,
     ];
-    public function warehouse(){
+    public function warehouseItem(){
         return $this->hasMany(WarehouseItem::class);
     }
 }

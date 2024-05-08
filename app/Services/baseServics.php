@@ -22,7 +22,7 @@ class baseServics
     {
         $modelName = class_basename($this->model);
 
-        $data =$this->model::latest()->paginate(10);
+        $data =$this->model::paginate(10);
         if ($data->isEmpty()){
             $message="There are no $modelName at the moment";
         }else
@@ -99,7 +99,7 @@ class baseServics
             $message="$modelName not found";
             $code=404;
         }
-        return [$modelName=>$data,'message'=>$message,'code'=>$code];
+        return ['message'=>$message,'code'=>$code];
     }
 
 }

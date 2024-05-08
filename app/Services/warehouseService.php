@@ -10,4 +10,17 @@ class warehouseService extends baseServics
     {
         parent::__construct($model);
     }
+    public function index():array
+    {
+
+
+        $data =Warehouse::with('user','branch','parentWarehouse','warehouseItem.item')->paginate(10);
+        if ($data->isEmpty()){
+            $message="There are no Warehouse at the moment";
+        }else
+        {
+            $message="Warehouse indexed successfully";
+        }
+        return ['message'=>$message,"Warehouse"=>$data];
+    }
 }

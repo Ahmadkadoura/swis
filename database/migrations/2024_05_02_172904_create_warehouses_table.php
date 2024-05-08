@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,10 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->point('location')->nullable();
-            $table->foreignIdFor(Branch::class);
+            $table->foreignIdFor(Branch::class)->onDelete('cascade');
             $table->integer('capacity');
-            $table->bigInteger('parent_id')->nullable();
-            $table->foreignId(User::class);
+            $table->bigInteger('parent_id')->nullable()->onDelete('cascade');
+            $table->foreignIdFor(User::class);
             $table->boolean('is_Distribution_point');
             $table->timestamps();
             $table->softDeletes();

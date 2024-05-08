@@ -27,7 +27,7 @@ class UpdateWarehouseRequest extends FormRequest
             // 'location'  => '',
             'branch_id' => 'integer|exists:branches,id',
             'capacity'  => 'integer|min:0',
-            'parent_id' => 'integer',
+            'parent_id' => 'integer|exists:warehouses,id',
             'user_id'   => 'integer|exists:users,id',
 
             'is_Distribution_point' => 'boolean',

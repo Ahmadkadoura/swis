@@ -32,8 +32,9 @@ class storeItemsRequests extends FormRequest
             'sectorType' => ['required', new Enum(sectorType::class)],
             'unitType' => ['required', new Enum(unitType::class)],
             'name' => ['required', 'string'],
-            'size' => ['required', 'numeric', 'min:0'],
-            'weight' => ['required', 'numeric', 'min:0'],
+            'size' => ['required', 'numeric', 'min:1'],
+            'weight' => ['required', 'numeric', 'min:1'],
+            'quantity' => ['required', 'numeric', 'min:1'],
         ];
     }
     protected function failedValidation(Validator $validator)

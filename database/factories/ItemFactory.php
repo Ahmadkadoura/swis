@@ -26,6 +26,7 @@ class ItemFactory extends Factory
             'name' => $this->faker->word,
             'size' => $this->faker->randomFloat(2, 0, 100), // Random size between 0 and 100
             'weight' => $this->faker->randomFloat(2, 0, 100), // Random weight between 0 and 100
+            'quantity' => $this->faker->numberBetween(10, 1000),// Random quantity between 10 and 1000
 
         ];
     }

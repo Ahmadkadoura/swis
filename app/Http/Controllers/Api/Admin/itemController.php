@@ -25,7 +25,7 @@ class itemController extends Controller
     {
 
             $data=$this->itemService->index();
-            return Response::Success($data['Item'],$data['message']);
+        return $this->showAll($data['Item'],itemsResource::class,$data['message']);
 
     }
 
@@ -33,7 +33,7 @@ class itemController extends Controller
     {
 
             $data = $this->itemService->show($item);
-            return Response::Success($data['Item'], $data['message']);
+        return $this->showAll($data['Item'],itemsResource::class,$data['message']);
 
     }
     public function store(storeItemsRequests $request): JsonResponse
@@ -41,7 +41,7 @@ class itemController extends Controller
         $dataItem=$request->validated();
 
             $data=$this->itemService->create($dataItem);
-            return Response::Success($data['Item'],$data['message']);
+        return $this->showOne($data['Item'],itemsResource::class,$data['message']);
 
     }
 
@@ -50,15 +50,15 @@ class itemController extends Controller
         $dataItem=$request->validated();
 
             $data = $this->itemService->update($dataItem, $item);
-            return Response::Success($data['Item'], $data['message'], $data['code']);
+        return $this->showOne($data['Item'],itemsResource::class,$data['message']);
 
     }
 
 
-    public function destroy(Item $item): JsonResponse
+    public function destroy(Item $item)
     {
             $data = $this->itemService->destroy($item);
-            return Response::Success($data['Item'], $data['message'], $data['code']);
+        return [$data['message'],$data['code']];
 
     }
 
