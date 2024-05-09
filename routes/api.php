@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\Admin\DonorController;
 use App\Http\Controllers\Api\Admin\DriverController;
 use App\Http\Controllers\Api\Admin\itemController;
 use App\Http\Controllers\Api\Admin\BranchController;
+use App\Http\Controllers\Api\Admin\TransactionController;
+use App\Http\Controllers\Api\Admin\TransactionItemController;
+use App\Http\Controllers\Api\Admin\TransactionWarehouseController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\WarehouseController;
 use App\Http\Controllers\Api\Admin\WarehouseItemController;
@@ -34,6 +37,9 @@ Route::apiResources([
     'donor'               => DonorController::class,
     'item'               => itemController::class,
     'warehouseItem'      => WarehouseItemController::class,
+    'transaction'      => TransactionController::class,
+    'transactionItem'      => TransactionItemController::class,
+    'transactionWarehouse'      =>TransactionWarehouseController::class,
 ]);
 //Route::prefix('item')
 //    ->controller(itemController::class)

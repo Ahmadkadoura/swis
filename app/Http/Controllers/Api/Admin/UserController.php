@@ -29,8 +29,7 @@ class UserController extends Controller
     public function show(User $user): JsonResponse
     {
 
-        $data = $this->userService->show($user);
-        return $this->showAll($data['User'],UserResource::class,$data['message']);
+        return $this->showOne($user,UserResource::class);
 
     }
     public function store(storeUserRequests $request): JsonResponse

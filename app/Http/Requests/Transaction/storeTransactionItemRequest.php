@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Transaction;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class updateUserRequests extends FormRequest
+class storeTransactionItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +22,8 @@ class updateUserRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => [  'min:8'],
-            'email' => [ 'string','email'],
-            'code' => [ 'string'],
-            'contact_email' => [ 'string','email'],
-            'name' => [ 'string'],
-            'phone' => [ 'string',Rule::unique('Users', 'phone')],
-            'photo' => [ 'string'],
+            'driver_id' => 'required|exists:drivers,id',
+            'transaction_id' => 'required|exists:transactions,id',
         ];
     }
 }

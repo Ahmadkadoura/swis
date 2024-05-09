@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call([WarehouseSedder::class]);
         $this->call([WarehouseItemSeeder::class]);
         $this->call([DonorSeeder::class]);
+        $this->call([TransactionSeeder::class]);
+        $this->call([TransactionDriverSeeder::class]);
+        $this->call([TransactionItemSeeder::class]);
+        $this->call([TransactionWarehouseSeeder::class]);
 
         // \App\Models\User::factory(10)->create();
 

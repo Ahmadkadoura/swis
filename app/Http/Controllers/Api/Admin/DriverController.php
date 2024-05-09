@@ -32,8 +32,7 @@ class DriverController extends Controller
     public function show(Driver $driver): JsonResponse
     {
 
-            $data = $this->driverService->show($driver);
-        return $this->showAll($data['Driver'],DriverResource::class,$data['message']);
+        return $this->showOne($driver,DriverResource::class);
 
     }
     public function store(StoreDriverRequests $request): JsonResponse

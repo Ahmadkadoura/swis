@@ -31,21 +31,7 @@ class baseServics
         }
         return ['message'=>$message,"$modelName"=>$data];
     }
-    public function show($model):array
-    {
-        $modelName = class_basename($this->model);
 
-
-        $data =$this->model::where('id',$model->id)->get();
-
-        if ($data->isEmpty()){
-            $message="There are no $modelName at the moment";
-        }else
-        {
-            $message="$modelName showed successfully";
-        }
-        return ['message'=>$message,"$modelName"=>$data];
-    }
     public function create($request):array
     {
 

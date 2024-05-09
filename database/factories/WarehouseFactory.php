@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,10 +28,10 @@ class WarehouseFactory extends Factory
             'name' => $this->faker->company,
             'code' => $this->faker->unique()->word,
             'location' =>null,
-            'branch_id' => $this->faker->numberBetween(1, 10),
+            'branch_id' => Branch::inRandomOrder()->first()->id,
             'capacity' => $this->faker->numberBetween(100, 1000),
             'parent_id' => $parentId,
-            'user_id' => $this->faker->unique()->numberBetween(1, 10),
+            'user_id' => User::inRandomOrder()->first()->id,
             'is_Distribution_point' => $this->faker->boolean(),
         ];
     }

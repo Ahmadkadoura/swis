@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Transaction;
 
+use App\Enums\transactionModeType;
+use App\Enums\transType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
-class updateUserRequests extends FormRequest
+class UpdateTransactionWarehouseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +25,10 @@ class updateUserRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => [  'min:8'],
-            'email' => [ 'string','email'],
-            'code' => [ 'string'],
-            'contact_email' => [ 'string','email'],
-            'name' => [ 'string'],
-            'phone' => [ 'string',Rule::unique('Users', 'phone')],
-            'photo' => [ 'string'],
+            'transaction_id' => 'exists:transactions,id',
+            'warehouse_id' => 'exists:warehouses,id',
+            'transaction_type' => new Enum(transType::class),
+            'transaction_mode_type' => new Enum(transactionModeType::class),
         ];
     }
 }

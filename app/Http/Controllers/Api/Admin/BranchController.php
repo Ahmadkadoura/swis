@@ -34,8 +34,8 @@ class BranchController extends Controller
     public function show(Branch $branch): JsonResponse
     {
 
-            $data = $this->branchService->show($branch);
-        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
+        return $this->showOne($branch,BranchResource::class);
+
 
     }
 

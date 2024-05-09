@@ -32,8 +32,7 @@ class itemController extends Controller
     public function show(Item $item): JsonResponse
     {
 
-            $data = $this->itemService->show($item);
-        return $this->showAll($data['Item'],itemsResource::class,$data['message']);
+        return $this->showOne($item,itemsResource::class);
 
     }
     public function store(storeItemsRequests $request): JsonResponse
