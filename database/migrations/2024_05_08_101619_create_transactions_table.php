@@ -28,6 +28,21 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::create('transactions',
+            function (Blueprint $table) {
+                $table->id();
+                $table->foreignIdFor(Donor::class)->nullable();
+                $table->foreignIdFor(Warehouse::class);
+                $table->boolean('is_convoy');
+                $table->string('notes')->nullable();
+                $table->string('code');
+                $table->string('status');
+                $table->date('date');
+                $table->integer('waybill_num');
+                $table->string('waybill_img');
+                $table->string('qr_code')->nullable();
+                $table->timestamps();
+            });
     }
 
     /**

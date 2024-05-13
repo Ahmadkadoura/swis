@@ -28,7 +28,7 @@ class storeUserRequests extends FormRequest
             'code' => ['required', 'string'],
             'contact_email' => ['required', 'string','email'],
             'name' => ['required', 'string'],
-            'phone' => ['required',Rule::unique('Users', 'phone')],
+            'phone' => ['required',Rule::unique('Users', 'phone'),'phone:sy,INTERNATIONAL'],
             'photo' => [ 'required', 'string'],
         ];
     }

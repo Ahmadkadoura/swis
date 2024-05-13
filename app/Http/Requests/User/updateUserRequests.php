@@ -28,8 +28,8 @@ class updateUserRequests extends FormRequest
             'code' => [ 'string'],
             'contact_email' => [ 'string','email'],
             'name' => [ 'string'],
-            'phone' => [ 'string',Rule::unique('Users', 'phone')],
-            'photo' => [ 'string'],
+            'phone' => [ 'string',Rule::unique('Users', 'phone'),'phone:sy,INTERNATIONAL'],
+            'photo' => [ 'image'],
         ];
     }
 }

@@ -29,7 +29,7 @@ class TransactionFactory extends Factory
             'date' => $this->faker->date(),
             'waybill_num' => $this->faker->numberBetween(1000, 9999),
             'waybill_img' => $this->faker->imageUrl(),
-            'qr' => $this->faker->imageUrl(),
+            'qr_code' => $this->faker->imageUrl(),
         ];
     }
 }

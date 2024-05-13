@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "chillerlan/php-qrcode": "^5.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "matanyadaev/laravel-eloquent-spatial": "^4.2",
         "propaganistas/laravel-phone": "^5.3",
         "spatie/laravel-permission": "^6.7"
     },
