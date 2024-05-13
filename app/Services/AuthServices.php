@@ -79,7 +79,7 @@ class AuthServices
         $roles=[];
         foreach ($user->roles as $role)
         {
-            $roles=$role['name'];
+            $roles[]=$role['name'];
         }
         unset($user['roles']);
         $user['roles']=$roles;
@@ -87,7 +87,7 @@ class AuthServices
         $permissions=[];
         foreach ($user->permissions as $permission)
         {
-            $permissions=$permission['name'];
+            $permissions[]=$permission['name'];
         }
         unset($user['permissions']);
         $user['permissions']=$permissions;

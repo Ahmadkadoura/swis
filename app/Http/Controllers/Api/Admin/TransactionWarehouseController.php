@@ -17,14 +17,14 @@ class TransactionWarehouseController extends Controller
 
     public function __construct(TransactionWarehouseService $transactionDriverService)
     {
-        $this->TransactionWarehouseService = $transactionDriverService;
+        $this->transactionWarehouseService = $transactionDriverService;
         $this->middleware(['auth:sanctum']);
     }
 
     public function index(): JsonResponse
     {
 
-        $data = $this->TransactionWarehouseService->index();
+        $data = $this->transactionWarehouseService->index();
         return $this->showAll($data['transactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
 
     }
@@ -40,7 +40,7 @@ class TransactionWarehouseController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->TransactionWarehouseService->create($dataItem);
+        $data = $this->transactionWarehouseService->create($dataItem);
         return $this->showOne($data['transactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
 
     }
@@ -49,7 +49,7 @@ class TransactionWarehouseController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->TransactionWarehouseService->update($dataItem, $transactionWarehouse);
+        $data = $this->transactionWarehouseService->update($dataItem, $transactionWarehouse);
         return $this->showOne($data['transactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
 
     }
@@ -57,7 +57,7 @@ class TransactionWarehouseController extends Controller
 
     public function destroy(transactionWarehouse $transactionWarehouse)
     {
-        $data = $this->TransactionWarehouseService->destroy($transactionWarehouse);
+        $data = $this->transactionWarehouseService->destroy($transactionWarehouse);
         return [$data['message'], $data['code']];
 
     }

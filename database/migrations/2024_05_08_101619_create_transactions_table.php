@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('waybill_img');
             $table->string('qr');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

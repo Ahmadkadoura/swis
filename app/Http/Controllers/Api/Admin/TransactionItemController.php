@@ -3,15 +3,10 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Transaction\storeTransactionDriverRequest;
 use App\Http\Requests\Transaction\storeTransactionItemRequest;
-use App\Http\Requests\Transaction\UpdateTransactionDriverRequest;
 use App\Http\Requests\Transaction\UpdateTransactionItemRequest;
-use App\Http\Resources\TransactionDriverResource;
 use App\Http\Resources\TransactionItemResource;
-use App\Models\transactionDriver;
 use App\Models\transactionItem;
-use App\Services\TransactionDriverService;
 use App\Services\TransactionItemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,14 +17,14 @@ class TransactionItemController extends Controller
 
     public function __construct(TransactionItemService $transactionDriverService)
     {
-        $this->TransactionItemService = $transactionDriverService;
+        $this->transactionItemService = $transactionDriverService;
         $this->middleware(['auth:sanctum']);
     }
 
     public function index(): JsonResponse
     {
 
-        $data = $this->TransactionItemService->index();
+        $data = $this->transactionItemService->index();
         return $this->showAll($data['TransactionItem'], TransactionItemResource::class, $data['message']);
 
     }
@@ -45,7 +40,7 @@ class TransactionItemController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->TransactionItemService->create($dataItem);
+        $data = $this->transactionItemService->create($dataItem);
         return $this->showOne($data['TransactionItem'], TransactionItemResource::class, $data['message']);
 
     }
@@ -54,7 +49,7 @@ class TransactionItemController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->TransactionItemService->update($dataItem, $transactionItem);
+        $data = $this->transactionItemService->update($dataItem, $transactionItem);
         return $this->showOne($data['TransactionItem'], TransactionItemResource::class, $data['message']);
 
     }
@@ -62,7 +57,7 @@ class TransactionItemController extends Controller
 
     public function destroy(transactionItem $transactionItem)
     {
-        $data = $this->TransactionItemService->destroy($transactionItem);
+        $data = $this->transactionItemService->destroy($transactionItem);
         return [$data['message'], $data['code']];
 
     }

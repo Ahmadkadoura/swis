@@ -6,10 +6,11 @@ use App\Enums\transactionStatusType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $fillable = [
         'donor_id',
         'warehouse_id',
@@ -30,6 +31,11 @@ class Transaction extends Model
     public function donor():BelongsTo
     {
         return $this->belongsTo(Donor::class);
+    }
+
+    public function drivers()
+    {
+        return $this->belongsToMany(Driver::class);
     }
 
     public function warehouse():BelongsTo

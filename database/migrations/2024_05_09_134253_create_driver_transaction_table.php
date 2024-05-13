@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('drivers', function (Blueprint $table) {
+        Schema::create('driver_transaction', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('vehicle_number');
-            $table->string('national_id')->unique();
-            $table->string('transportation_company_name')->nullable();
-            $table->string('phone')->unique();
+            $table->foreignId('driver_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('transaction_id')->constrained()->cascadeOnDelete();
+            $table->primary(['driver_id','transaction_id']);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('drivers');
+        Schema::dropIfExists('driver_transaction');
     }
 };

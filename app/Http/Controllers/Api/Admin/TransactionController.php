@@ -16,13 +16,13 @@ class TransactionController extends Controller
     private TransactionService $transactionService;
     public function __construct(TransactionService $transactionService)
     {
-        $this->TransactionService = $transactionService;
+        $this->transactionService = $transactionService;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-        $data=$this->TransactionService->index();
+        $data=$this->transactionService->index();
         return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -37,7 +37,7 @@ class TransactionController extends Controller
     {
         $dataItem=$request->validated();
 
-        $data=$this->TransactionService->create($dataItem);
+        $data=$this->transactionService->create($dataItem);
         return $this->showOne($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -46,7 +46,7 @@ class TransactionController extends Controller
     {
         $dataItem=$request->validated();
 
-        $data = $this->TransactionService->update($dataItem, $transaction);
+        $data = $this->transactionService->update($dataItem, $transaction);
         return $this->showOne($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -54,7 +54,7 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        $data = $this->TransactionService->destroy($transaction);
+        $data = $this->transactionService->destroy($transaction);
         return [$data['message'],$data['code']];
 
     }
