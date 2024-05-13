@@ -32,8 +32,8 @@ class UpdateTransactionRequest extends FormRequest
             'status' => new Enum(transactionStatusType::class),
             'date' => 'date',
             'waybill_num' => 'integer',
-            'waybill_img' => 'string',
-            'qr' => 'string',
+            'waybill_img' => [ 'image'],
+            'qr_code' => 'image',
         ];
     }
 }

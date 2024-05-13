@@ -37,7 +37,7 @@ Route::apiResources([
     'donor'               => DonorController::class,
     'item'               => itemController::class,
     'warehouseItem'      => WarehouseItemController::class,
-    'transaction'      => TransactionController::class,
+    'transactions'      => TransactionController::class,
     'transactionItem'      => TransactionItemController::class,
     'transactionWarehouse'      =>TransactionWarehouseController::class,
 ]);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->point('location')->nullable();
+            $table->geometry('location')->nullable();
             $table->foreignIdFor(Branch::class)->onDelete('cascade');
             $table->integer('capacity');
             $table->bigInteger('parent_id')->nullable()->onDelete('cascade');

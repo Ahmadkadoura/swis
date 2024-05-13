@@ -6,6 +6,7 @@ use App\Enums\transactionStatusType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Transaction extends Model
 {
@@ -20,7 +21,7 @@ class Transaction extends Model
         'date',
         'waybill_num',
         'waybill_img',
-        'qr',
+        'qr_code',
     ];
 
     protected $casts = [
@@ -35,5 +36,18 @@ class Transaction extends Model
     public function warehouse():BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+    public static function getDisk()
+    {
+        return Storage::disk('transactions');
+    }
+    public function imageUrl(string $fieldName)
+    {
+        if(str_starts_with($this->$fieldName,'http')) {
+            return $this->$fieldName;
+        }else{
+
+            return $this->$fieldName ? self::getDisk()->url($this->$fieldName) : null;
+        }
     }
 }

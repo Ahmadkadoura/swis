@@ -24,16 +24,16 @@ class StoreTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'donor_id' => 'required|exists:donors,id',
+            'donor_id' => 'exists:donors,id',
             'warehouse_id' => 'required|exists:warehouses,id',
             'is_convoy' => 'required|boolean',
             'notes' => 'nullable|string',
             'code' => 'required|string',
             'status' => 'required',new Enum(transactionStatusType::class),
-            'date' => 'required|date',
+            'date' => 'required|date|after:yesterday',
             'waybill_num' => 'required|integer',
-            'waybill_img' => 'required|string',
-            'qr' => 'required|string',
+            'waybill_img' => 'required|image',
+            'qr_code' => 'image',
         ];
     }
 }

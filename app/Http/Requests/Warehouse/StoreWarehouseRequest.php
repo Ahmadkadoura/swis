@@ -29,7 +29,8 @@ class StoreWarehouseRequest extends FormRequest
             'capacity'  => 'required|integer|min:0',
             'parent_id' => 'required|integer|exists:warehouses,id',
             'user_id'   => 'required|integer|exists:users,id',
-
+            'location.latitude' => 'numeric',
+            'location.longitude' => 'numeric',
             'is_Distribution_point' => 'required|boolean',
         ];
     }

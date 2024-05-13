@@ -28,8 +28,8 @@ class TransactionResource extends JsonResource
             'status' => $this->status,
             'date' => $this->date,
             'waybill_num' => $this->waybill_num,
-            'waybill_img' => $this->waybill_img,
-            'qr' => $this->qr,
+            'waybill_img' => $this->imageUrl('waybill_img'),
+            'qr_code' => $this->qr,
             ];
     }
 }

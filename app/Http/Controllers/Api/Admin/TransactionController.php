@@ -3,16 +3,24 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\QRImageWithLogo;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
 use App\Services\TransactionService;
+use App\Traits\FileUpload;
+use chillerlan\QRCode\Common\EccLevel;
+use chillerlan\QRCode\Data\QRMatrix;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
 {
+    use FileUpload;
     private TransactionService $transactionService;
     public function __construct(TransactionService $transactionService)
     {
@@ -36,16 +44,60 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request): JsonResponse
     {
         $dataItem=$request->validated();
+        $transactionData=null;
+        if ($request->hasFile('waybill_img')) {
+            $file = $request->file('waybill_img');
+            $fileName ='Transaction/'.'waybill_Images/' . $file->hashName() ;
+            $imagePath = $this->createFile($request->file('waybill_img'), Transaction::getDisk(),filename:  $fileName);
+            $dataItem['waybill_img'] = $imagePath;
+            $transactionData=$this->TransactionService->create($dataItem);
+        }
+//        if ($request->hasFile('qr')) {
+//            $file = $request->file('qr');
+//            $fileName = 'Transaction/'.'qr_code/' .  $file->hashName();
+//            $imagePath = $this->createFile($request->file('qr'), Transaction::getDisk(), $fileName);
+//            $table_data['qr'] = $imagePath;
+//        } else {
+//            $data = 'http://127.0.0.1:8000/api/transactions/'.$transactionData['Transaction']['id'] ;  // الرابط يلي لح يكون جوا qr
+//            $logoPath = Storage::disk('assets')->path('logo.png');
+//            $options = new QROptions();
+//            $options->version = 5;
+//            $options->outputBase64 = false;
+//            $options->scale = 6;
+//            $options->imageTransparent = false;
+//            $options->drawCircularModules = true;
+//            $options->circleRadius = 0.45;
+//            $options->keepAsSquare = [
+//                QRMatrix::M_FINDER,
+//                QRMatrix::M_FINDER_DOT,
+//            ];
+//            $options->eccLevel = EccLevel::H;
+//            $options->addLogoSpace = true;
+//            $options->logoSpaceWidth = 13;
+//            $options->logoSpaceHeight = 13;
+//            $qrcode = new QRCode($options);
+//            $qrOutputInterface = new QRImageWithLogo($options, $qrcode->getQRMatrix());
+//            $imageData = $qrOutputInterface->dump(null, $logoPath);
+//            $qrcode->render($data);
+//            $fileName = 'qr_code_' . time() . '.png';
+//            $imagePath = 'Transaction/'.'qr_code/'  . $fileName;
+//            Storage::disk('transactions')->put($imagePath, $imageData);
+//            $table_data['qr'] = $imagePath;
+//        }
 
-        $data=$this->TransactionService->create($dataItem);
-        return $this->showOne($data['Transaction'],TransactionResource::class,$data['message']);
+        return $this->showOne($transactionData['Transaction'],TransactionResource::class,$transactionData['message']);
 
     }
 
     public function update(UpdateTransactionRequest $request,Transaction $transaction): JsonResponse
     {
         $dataItem=$request->validated();
-
+        if ($request->hasFile('waybill_img')) {
+            $file = $request->file('waybill_img');
+            $name ='Transaction/'.'waybill_Images/' . $file->hashName() ;
+            $imagePath = $this->createFile($request->file('waybill_img'), Transaction::getDisk(),filename:  $name);
+            $dataItem['waybill_img'] = $imagePath;
+        }
         $data = $this->TransactionService->update($dataItem, $transaction);
         return $this->showOne($data['Transaction'],TransactionResource::class,$data['message']);
 

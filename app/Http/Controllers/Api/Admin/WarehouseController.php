@@ -45,9 +45,12 @@ class WarehouseController extends Controller
 
     public function store(StoreWarehouseRequest $request): JsonResponse
     {
-        $newData=$request->validated();
-
-            $data=$this->warehouseService->create($newData);
+        $WarehouseData=$request->validated();
+        if (isset($WarehouseData['location'])) {
+            $location = $WarehouseData['location'];
+            $WarehouseData['location'] = new Point($location['longitude'], $location['latitude']);
+        }
+            $data=$this->warehouseService->create($WarehouseData);
         return $this->showOne($data['Warehouse'],WarehouseResource::class,$data['message']);
 
     }

@@ -38,4 +38,10 @@ class warehouseService extends baseServics
         return ['message'=>$message,"Warehouse"=>$data];
 
     }
+    public function create($request):array
+    {
+        $data=Warehouse::create($request);
+        $message="Warehouse created successfully";
+        return ['message'=>$message,"Warehouse"=>$data];
+    }
 }
