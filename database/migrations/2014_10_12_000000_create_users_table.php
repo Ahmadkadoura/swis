@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('contact_email')->unique();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

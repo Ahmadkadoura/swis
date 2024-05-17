@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Api\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, hasRoles;
+    use HasApiTokens, HasFactory, Notifiable, hasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

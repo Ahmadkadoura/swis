@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('transaction_type');
             $table->string('transaction_mode_type');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

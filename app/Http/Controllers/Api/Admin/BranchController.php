@@ -67,4 +67,15 @@ class BranchController extends Controller
         return [$data['message'],$data['code']];
 
     }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->branchService->showDeleted();
+        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->branchService->restore($request);
+        return [$data['message'],$data['code']];
+    }
 }

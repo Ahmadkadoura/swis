@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Driver::class);
             $table->foreignIdFor(Transaction::class);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

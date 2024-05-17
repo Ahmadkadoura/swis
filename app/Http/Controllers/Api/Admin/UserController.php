@@ -10,6 +10,7 @@ use App\Http\Responses\Response;
 use App\Models\User;
 use App\Services\userService;
 use App\Traits\FileUpload;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
@@ -70,6 +71,17 @@ class UserController extends Controller
 
       return [$data['message'],$data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->userService->showDeleted();
+        return $this->showAll($data['User'],UserResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->userService->restore($request);
+        return [$data['message'],$data['code']];
     }
 
 }

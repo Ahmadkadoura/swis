@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('transaction_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Transaction::class);
-            $table->foreignIdFor(Item::class);
+            $table->foreignId('transaction_id')->constrained();
+            $table->foreignId('item_id')->constrained();
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

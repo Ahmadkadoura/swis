@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,4 +88,39 @@ class baseServics
         return ['message'=>$message,'code'=>$code];
     }
 
+    public function showDeleted():array
+    {
+        $modelName = class_basename($this->model);
+
+        $data =$this->model::onlyTrashed()->get()->all();
+        if (!$data){
+            $message="There are no $modelName deleted at the moment";
+        }else
+        {
+            $message="$modelName indexed successfully";
+        }
+        return ['message'=>$message,"$modelName"=>$data];
+    }
+
+    public function restore($request)
+    { 
+        $ids = $request->input('ids');
+        if($ids != null)
+        {
+            foreach($ids as $id)
+            {
+                $model = $this->model::onlyTrashed()->find($id);
+                if($model) $model->restore();
+                
+            }
+            $message="restored successfully";
+            $code=200;
+        }
+        else
+        {
+            $message="objects must be sended";
+            $code=404;
+        }
+        return ['message'=>$message,'code'=>$code];
+    }
 }

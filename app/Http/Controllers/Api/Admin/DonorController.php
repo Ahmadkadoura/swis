@@ -17,13 +17,13 @@ class DonorController extends Controller
 
     public function __construct(DonorService $donorService)
     {
-        $this->DonorService = $donorService;
+        $this->donorService = $donorService;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-        $data=$this->DonorService->index();
+        $data=$this->donorService->index();
         return $this->showAll($data['Donor'],DonorResource::class,$data['message']);
 
     }
@@ -40,7 +40,7 @@ class DonorController extends Controller
     {
         $newData=$request->validated();
 
-        $data=$this->DonorService->create($newData);
+        $data=$this->donorService->create($newData);
         return $this->showOne($data['Donor'],DonorResource::class,$data['message']);
 
     }
@@ -50,7 +50,7 @@ class DonorController extends Controller
     {
         $newData=$request->validated();
 
-        $data = $this->DonorService->update($newData, $donor);
+        $data = $this->donorService->update($newData, $donor);
         return $this->showOne($data['Donor'],DonorResource::class,$data['message']);
 
     }
@@ -59,8 +59,19 @@ class DonorController extends Controller
     public function destroy(Donor $donor)
     {
 
-        $data = $this->DonorService->destroy($donor);
+        $data = $this->donorService->destroy($donor);
         return [$data['message'],$data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->donorService->showDeleted();
+        return $this->showAll($data['Donor'],DonorResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->donorService->restore($request);
+        return [$data['message'],$data['code']];
     }
 }

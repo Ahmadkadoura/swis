@@ -19,7 +19,7 @@ class TransactionItemResource extends JsonResource
             'item' => $this->item->name,
             'transaction' =>
                 ['id'=>$this->transaction_id,
-                 'code'=>$this->transaction->code,
+                 'code'=>$this->transaction->code, // cannot access code ???
                 ],
         ];
     }

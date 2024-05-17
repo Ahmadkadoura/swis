@@ -64,4 +64,15 @@ class WarehouseItemController extends Controller
         return [$data['message'], $data['code']];
 
     }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->warehouseItemService->showDeleted();
+        return $this->showAll($data['WarehouseItem'],WarehouseItemResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->warehouseItemService->restore($request);
+        return [$data['message'],$data['code']];
+    }
 }

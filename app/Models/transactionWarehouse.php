@@ -7,10 +7,11 @@ use App\Enums\transctionType;
 use App\Enums\transType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class transactionWarehouse extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $fillable = [
         'transaction_id',
         'warehouse_id',

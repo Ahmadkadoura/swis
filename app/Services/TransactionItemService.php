@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\transactionDriver;
+
 use App\Models\transactionItem;
 
 class TransactionItemService extends baseServics
 {
-    public function __construct(transactionDriver $model)
+    public function __construct(transactionItem $model)
     {
         parent::__construct($model);
     }

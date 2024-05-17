@@ -13,21 +13,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Donor::class);
-            $table->foreignIdFor(Warehouse::class);
-            $table->boolean('is_convoy');
-            $table->string('notes')->nullable();
-            $table->string('code');
-            $table->string('status');
-            $table->date('date');
-            $table->integer('waybill_num');
-            $table->string('waybill_img');
-            $table->string('qr');
-            $table->timestamps();
-            $table->softDeletes();
-        });
         Schema::create('transactions',
             function (Blueprint $table) {
                 $table->id();
@@ -42,6 +27,7 @@ return new class extends Migration
                 $table->string('waybill_img');
                 $table->string('qr_code')->nullable();
                 $table->timestamps();
+                $table->softDeletes();
             });
     }
 

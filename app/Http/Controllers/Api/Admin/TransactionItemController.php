@@ -15,9 +15,9 @@ class TransactionItemController extends Controller
 {
     private TransactionItemService $transactionItemService;
 
-    public function __construct(TransactionItemService $transactionDriverService)
+    public function __construct(TransactionItemService $transactionItemService)
     {
-        $this->transactionItemService = $transactionDriverService;
+        $this->transactionItemService = $transactionItemService;
         $this->middleware(['auth:sanctum']);
     }
 
@@ -60,5 +60,16 @@ class TransactionItemController extends Controller
         $data = $this->transactionItemService->destroy($transactionItem);
         return [$data['message'], $data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {   
+        $data=$this->transactionItemService->showDeleted();
+        return $this->showAll($data['transactionItem'],TransactionItemResource::class,$data['message']); //data key undefined
+    }
+    public function restore(Request $request){
+        
+        $data = $this->transactionItemService->restore($request);
+        return [$data['message'],$data['code']];
     }
 }

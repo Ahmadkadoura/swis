@@ -15,9 +15,9 @@ class TransactionWarehouseController extends Controller
 {
     private TransactionWarehouseService $transactionWarehouseService;
 
-    public function __construct(TransactionWarehouseService $transactionDriverService)
+    public function __construct(TransactionWarehouseService $transactionWarehouseService)
     {
-        $this->transactionWarehouseService = $transactionDriverService;
+        $this->transactionWarehouseService = $transactionWarehouseService;
         $this->middleware(['auth:sanctum']);
     }
 
@@ -60,5 +60,16 @@ class TransactionWarehouseController extends Controller
         $data = $this->transactionWarehouseService->destroy($transactionWarehouse);
         return [$data['message'], $data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->transactionWarehouseService->showDeleted();
+        return $this->showAll($data['transactionWarehouse'],TransactionWarehouseResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->transactionWarehouseService->restore($request);
+        return [$data['message'],$data['code']];
     }
 }

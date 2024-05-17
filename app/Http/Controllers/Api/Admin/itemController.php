@@ -61,4 +61,15 @@ class itemController extends Controller
 
     }
 
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->itemService->showDeleted();
+        return $this->showAll($data['Item'],itemsResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->itemService->restore($request);
+        return [$data['message'],$data['code']];
+    }
+
 }

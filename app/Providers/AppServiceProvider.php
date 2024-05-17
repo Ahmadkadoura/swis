@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (!app()->isProduction()) {
-            Model::shouldBeStrict();
-        }
+        // if (!app()->isProduction()) {
+        //     Model::shouldBeStrict();
+        // }
     }
 }

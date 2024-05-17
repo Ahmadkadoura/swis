@@ -9,6 +9,7 @@ use App\Http\Resources\DriverResource;
 use App\Http\Responses\Response;
 use App\Models\Driver;
 use App\Services\driverService;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
@@ -58,6 +59,18 @@ class DriverController extends Controller
             $data = $this->driverService->destroy($driver);
             return [ $data['message'], $data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->driverService->showDeleted();
+        return $this->showAll($data['Driver'],DriverResource::class,$data['message']);
+    }
+
+    public function restore(Request $request){
+        
+        $data = $this->driverService->restore($request);
+        return [$data['message'],$data['code']];
     }
 
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

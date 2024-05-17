@@ -111,4 +111,15 @@ class TransactionController extends Controller
 
     }
 
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->transactionService->showDeleted();
+        return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->transactionService->restore($request);
+        return [$data['message'],$data['code']];
+    }
+
 }
