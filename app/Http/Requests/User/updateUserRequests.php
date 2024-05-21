@@ -23,13 +23,13 @@ class updateUserRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => [ 'confirmed', 'min:8'],
+            'password' => [  'min:8'],
             'email' => [ 'string','email'],
             'code' => [ 'string'],
             'contact_email' => [ 'string','email'],
             'name' => [ 'string'],
-            'phone' => [ 'string','phone:Auto',Rule::unique('Users', 'phone')],
-            'photo' => [ 'image' , 'mimes:jpeg,jpg,png,gif'],
+            'phone' => [ 'string',Rule::unique('Users', 'phone'),'phone:sy,INTERNATIONAL'],
+            'photo' => [ 'image'],
         ];
     }
 }

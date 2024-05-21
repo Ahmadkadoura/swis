@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Branch\StoreBranchRequest;
 use App\Http\Requests\Branch\UpdateBranchRequest;
+use App\Http\Resources\BranchResource;
 use App\Models\Branch;
 use App\Services\branchService;
 use Illuminate\Http\Request;
@@ -26,44 +27,55 @@ class BranchController extends Controller
     {
 
             $data=$this->branchService->index();
-            return Response::Success($data['Branch'],$data['message']);
+        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
     public function show(Branch $branch): JsonResponse
     {
 
-            $data = $this->branchService->show($branch);
-            return Response::Success($data['Branch'], $data['message'], $data['code']);
+        return $this->showOne($branch,BranchResource::class);
+
 
     }
 
 
-    public function create(StoreBranchRequest $request): JsonResponse
+    public function store(StoreBranchRequest $request): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data=$this->branchService->create($newData);
-            return Response::Success($data['Branch'],$data['message']);
+        return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
 
     public function update(UpdateBranchRequest $request, Branch $branch): JsonResponse
     {
-        $newData=$request->validate();
+        $newData=$request->validated();
 
             $data = $this->branchService->update($newData, $branch);
-            return Response::Success($data['Branch'], $data['message'], $data['code']);
+        return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
     }
 
 
-    public function destroy(Branch $branch): JsonResponse
+    public function destroy(Branch $branch)
     {
 
             $data = $this->branchService->destroy($branch);
-            return Response::Success($data['Branch'], $data['message'], $data['code']);
+        return [$data['message'],$data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->branchService->showDeleted();
+        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->branchService->restore($request);
+        return [$data['message'],$data['code']];
     }
 }

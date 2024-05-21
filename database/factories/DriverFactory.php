@@ -19,7 +19,7 @@ class DriverFactory extends Factory
         return [
             'name'=>fake()->text(20),
             'vehicle_number'=>fake()->text(20),
-            'national_id'=>fake()->text(20),
+            'national_id'=>fake()->unique()->text(20),
             'transportation_company_name'=>fake()->text(20),
             'phone'=>fake()->text(20),
         ];

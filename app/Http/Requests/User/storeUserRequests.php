@@ -23,13 +23,13 @@ class storeUserRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required', 'confirmed', 'min:8'],
+            'password' => ['required', 'min:8'],
             'email' => ['required', 'string','email'],
             'code' => ['required', 'string'],
             'contact_email' => ['required', 'string','email'],
             'name' => ['required', 'string'],
-            'phone' => ['required','phone:Auto',Rule::unique('Users', 'phone')],
-            'photo' => [ 'image' , 'mimes:jpeg,jpg,png,gif'],
+            'phone' => ['required',Rule::unique('Users', 'phone'),'phone:sy,INTERNATIONAL'],
+            'photo' => [ 'required', 'string'],
         ];
     }
 }

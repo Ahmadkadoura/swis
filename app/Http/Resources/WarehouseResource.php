@@ -15,16 +15,23 @@ class WarehouseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'        => $this->id, 
+            'id'        => $this->id,
             'name'      => $this->name,
             'code'      => $this->code,
             'location'  => $this->location,
-            'branch_id' => $this->branch_id,
+            'branch' => [
+                'id' =>$this->parent_id,
+                'name' =>$this->branch->name ?? null,
+            ],
             'capacity'  => $this->capacity,
-            'parent_id' => $this->parent_id,
-            'user_id'   => $this->user_id,
-            
-            'is_Distribution_point' =>$this->is_Distribution_point,
-            ];
+            'main_Warehouse' => [
+                'id' =>$this->parent_id,
+                'name' =>$this->parentWarehouse->name ?? null],
+            'user'   => $this->user->name,
+
+            'items'=>$this->warehouseItem->map(function ($warehouseItem){
+                return new ItemInWarehouseResource($warehouseItem);
+            }),
+        ];
     }
 }

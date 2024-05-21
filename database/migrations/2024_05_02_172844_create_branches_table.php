@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->nullable()->onDelete('cascade');
             $table->string('phone')->unique();
             $table->string('address');
             $table->timestamps();

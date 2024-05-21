@@ -28,7 +28,7 @@ public static function Success($data,$message,$code=200):JsonResponse
     {
         return response()->json(
             [
-                'status'=>1,
+                'status'=>0,
                 'data'=>$data,
                 'message'=>$message,
             ],$code);

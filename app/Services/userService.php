@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Branch;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class userService extends baseServics
 {

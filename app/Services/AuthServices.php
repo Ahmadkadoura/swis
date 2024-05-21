@@ -8,20 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class AuthServices 
+class AuthServices
 {
-    
+
     public function register($request):array
     {
         $User=User::create([
             'name'=>$request['name'],
             'email'=>$request['email'],
             'password'=>Hash::make($request['password']),
-            'contact_email' => $request['contact_email'],
-            'phone' => $request['phone'],
-            'code' => $request['code'],
         ]);
-        $roles=Role::where('name','clientDDD')->get();
+        $roles=Role::where('name','clientDDD');
         $User->assignRole($roles);
 
         $permissions=$roles->permissions()->pluck()->toArray();
@@ -38,27 +35,30 @@ class AuthServices
         return['User'=>$User,'message'=>$message];
 
     }
-    public function login($request):array
+    public function login($request): array
     {
-        $user= User::where('email',$request['email'])
-            ->first();
-        if(!is_null($user)){
-            if( $user->password != $request['password']){
-                $message= 'User email & password dose not match with our record.';
-                $code= 401;
-            }else{
-                $user= $this->RolesAndPermissions($user);
-                $user['token']=$user->createToken("token")->plainTextToken;
-                $message='User logged in successfully.';
-                $code=200;
+        $user = User::where('email', $request['email'])->first();
+
+        if (!is_null($user)) {
+            if (!Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+                $message = 'User email & password do not match with our records.';
+                $code = 401;
+                $user = null;
+            } else {
+                $user = $this->RolesAndPermissions($user);
+                $user['access_token'] = $user->createToken("token")->plainTextToken;
+                $message = 'User logged in successfully.';
+                $code = 200;
             }
-        }else
-        {
-            $message='User not found.';
-            $code=404;
+        } else {
+            $message = 'User not found.';
+            $code = 404;
         }
-        return['User'=>$user,'message'=>$message,'code'=>$code];
-    }
+
+        return ['User' => $user, 'message' => $message, 'code' => $code];
+
+
+}
     public function logout():array
     {
         $user=Auth::user();
@@ -79,7 +79,7 @@ class AuthServices
         $roles=[];
         foreach ($user->roles as $role)
         {
-            $roles=$role['name'];
+            $roles[]=$role['name'];
         }
         unset($user['roles']);
         $user['roles']=$roles;
@@ -87,16 +87,10 @@ class AuthServices
         $permissions=[];
         foreach ($user->permissions as $permission)
         {
-            $permissions=$permission['name'];
+            $permissions[]=$permission['name'];
         }
         unset($user['permissions']);
         $user['permissions']=$permissions;
-
-        // $roles = $user->roles->pluck('name')->toArray();
-        // $permissions = $user->permissions->pluck('name')->toArray();
-
-        // $user['roles'] = $roles;
-        // $user['permissions'] = $permissions;
 
         return $user;
     }

@@ -30,10 +30,11 @@ class updateItemsRequests extends FormRequest
         return [
             'code' => [ 'string'],
             'sectorType' => [new Enum(sectorType::class)],
-            'unitType' => [ new Enum(unitType::class)],
+            'unitType' => [new Enum(unitType::class)],
             'name' => [ 'string'],
-            'size' => [ 'numeric', 'min:0'],
-            'weight' => [ 'numeric', 'min:0'],
+            'size' => [ 'numeric', 'min:1'],
+            'weight' => [ 'numeric', 'min:1'],
+            'quantity' => [ 'numeric', 'min:1'],
         ];
     }
     protected function failedValidation(Validator $validator)

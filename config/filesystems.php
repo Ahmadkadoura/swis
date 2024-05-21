@@ -43,6 +43,27 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'users' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/users'),
+            'url' => env('APP_URL').'/storage/users',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'transactions' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/transactions'),
+            'url' => env('APP_URL').'/storage/transactions',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'assets' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/assets'),
+            'url' => env('APP_URL').'/storage/assets',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',

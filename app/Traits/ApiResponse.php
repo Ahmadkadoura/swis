@@ -28,7 +28,7 @@ trait ApiResponse
         return $this->response($message, null, null, $code);
     }
 
-    protected function showOne($instance, $resource, $message = 'success', $code = 200): JsonResponse
+    protected function showOne($instance, $resource, $message = 'success',$code=200): JsonResponse
     {
         return $this->response($message, new $resource($instance));
     }
@@ -43,11 +43,11 @@ trait ApiResponse
       }
   */
 
-    protected function showAll($data, $resource, $pagination, $message = 'success', $code = 200): JsonResponse
+    protected function showAll($data, $resource, $message = 'success', $code = 200): JsonResponse
     {
         $response = $resource::collection($data);
 
-        return $this->response($message, $response, ['pagination' => $pagination], $code);
+        return $this->response($message, $response, $code);
     }
 
     protected function showCollection($data, $resource, $message = 'success', $code = 200): JsonResponse

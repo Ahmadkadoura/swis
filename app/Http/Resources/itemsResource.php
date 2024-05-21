@@ -22,6 +22,7 @@ class itemsResource extends JsonResource
             'unitType' => $this->unitType,
             'size' => $this->size,
             'weight' => $this->weight,
+            'quantity' => $this->quantity,
         ];
     }
 }

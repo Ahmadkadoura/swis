@@ -24,12 +24,13 @@ class StoreWarehouseRequest extends FormRequest
         return [
             'name'      => 'required|string|min:4',
             'code'      => 'required|string',
-            'location'  => 'required',
+           // 'location'  => 'required',
             'branch_id' => 'required|integer|exists:branches,id',
             'capacity'  => 'required|integer|min:0',
-            'parent_id' => 'required|integer',
+            'parent_id' => 'required|integer|exists:warehouses,id',
             'user_id'   => 'required|integer|exists:users,id',
-
+            'location.latitude' => 'numeric',
+            'location.longitude' => 'numeric',
             'is_Distribution_point' => 'required|boolean',
         ];
     }

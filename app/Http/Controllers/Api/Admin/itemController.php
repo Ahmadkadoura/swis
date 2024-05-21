@@ -25,41 +25,51 @@ class itemController extends Controller
     {
 
             $data=$this->itemService->index();
-            return Response::Success($data['item'],$data['message']);
+        return $this->showAll($data['Item'],itemsResource::class,$data['message']);
 
     }
 
     public function show(Item $item): JsonResponse
     {
 
-            $data = $this->itemService->show($item);
-            return Response::Success($data['Item'], $data['message'], $data['code']);
+        return $this->showOne($item,itemsResource::class);
 
     }
-    public function create(storeItemsRequests $request): JsonResponse
+    public function store(storeItemsRequests $request): JsonResponse
     {
-        $dataItem=$request->validate();
+        $dataItem=$request->validated();
 
             $data=$this->itemService->create($dataItem);
-            return Response::Success($data['Item'],$data['message']);
+        return $this->showOne($data['Item'],itemsResource::class,$data['message']);
 
     }
 
     public function update(updateItemsRequests $request,Item $item): JsonResponse
     {
-        $dataItem=$request->validate();
+        $dataItem=$request->validated();
 
             $data = $this->itemService->update($dataItem, $item);
-            return Response::Success($data['Item'], $data['message'], $data['code']);
+        return $this->showOne($data['Item'],itemsResource::class,$data['message']);
 
     }
 
 
-    public function destroy(Item $item): JsonResponse
+    public function destroy(Item $item)
     {
             $data = $this->itemService->destroy($item);
-            return Response::Success($data['Item'], $data['message'], $data['code']);
+        return [$data['message'],$data['code']];
 
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->itemService->showDeleted();
+        return $this->showAll($data['Item'],itemsResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->itemService->restore($request);
+        return [$data['message'],$data['code']];
     }
 
 }

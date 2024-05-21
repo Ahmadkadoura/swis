@@ -9,56 +9,79 @@ use App\Http\Resources\UserResource;
 use App\Http\Responses\Response;
 use App\Models\User;
 use App\Services\userService;
-use Illuminate\Http\JsonResponse;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    use FileUpload;
     private userService $userService;
     public function __construct(userService $userService)
     {
         $this->userService = $userService;
         $this->middleware(['auth:sanctum']);
     }
-    public function index(): JsonResponse
+    public function index()
     {
 
         $data=$this->userService->index();
-        return Response::Success($data['User'],$data['message']);
-
+        return $this->showAll($data['User'],UserResource::class,$data['message']);
     }
 
     public function show(User $user): JsonResponse
     {
 
-        $data = $this->userService->show($user);
-        return Response::Success($data['User'], $data['message'], $data['code']);
+        return $this->showOne($user,UserResource::class);
 
     }
-    public function create(storeUserRequests $request): JsonResponse
+    public function store(storeUserRequests $request): JsonResponse
     {
-        $dataUser=$request->validate();
+        $dataUser=$request->validated();
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name ='users_image/' . $file->hashName() ;
+            $imagePath = $this->createFile($request->file('photo'), User::getDisk(), $name);
+            $dataUser['photo'] = $imagePath;
+        }
 
         $data=$this->userService->create($dataUser);
-        return Response::Success($data['User'],$data['message']);
+        return $this->showOne($data['User'],UserResource::class,$data['message']);
 
     }
 
     public function update(updateUserRequests $request,User $user): JsonResponse
     {
-        $dataUser=$request->validate();
-
+        $dataUser=$request->validated();
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name ='users_image/' . $file->hashName() ;
+            $imagePath = $this->createFile($request->file('photo'), User::getDisk(), $name);
+            $dataUser['photo'] = $imagePath;
+        }
         $data = $this->userService->update($dataUser, $user);
-        return Response::Success($data['User'], $data['message'], $data['code']);
+        return $this->showOne($data['User'],UserResource::class,$data['message']);
 
     }
 
 
-    public function destroy(User $user): JsonResponse
+    public function destroy(User $user)
     {
         $data = $this->userService->destroy($user);
-        return Response::Success($data['User'], $data['message'], $data['code']);
 
+      return [$data['message'],$data['code']];
+
+    }
+
+    public function showDeleted(): JsonResponse
+    {
+        $data=$this->userService->showDeleted();
+        return $this->showAll($data['User'],UserResource::class,$data['message']);
+    }
+    public function restore(Request $request){
+        
+        $data = $this->userService->restore($request);
+        return [$data['message'],$data['code']];
     }
 
 }

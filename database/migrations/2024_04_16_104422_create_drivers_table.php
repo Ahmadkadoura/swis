@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('national_id')->unique();
             $table->string('transportation_company_name')->nullable();
             $table->string('phone')->unique();
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

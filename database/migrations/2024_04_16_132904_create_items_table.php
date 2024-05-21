@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\sectorType;
+use App\Enums\unitType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +21,9 @@ return new class extends Migration
             $table->string('unitType');
             $table->integer('size');
             $table->integer('weight');
+            $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
