@@ -51,6 +51,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function donor()
+    {
+        return $this->hasOne(Donor::class);
+    }
+
     public static function getDisk()
     {
         return Storage::disk('users');

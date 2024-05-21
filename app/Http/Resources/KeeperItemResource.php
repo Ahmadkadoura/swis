@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DonorResource extends JsonResource
+class KeeperItemResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,9 @@ class DonorResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return[
-            'user'   => new UserResource($this->user),
-            'quantity' => $this->quantity,
-        ];
+        return [
+                'item' => $this->item,
+                'quantity' => $this->quantity,
+            ];
     }
 }

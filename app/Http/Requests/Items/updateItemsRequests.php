@@ -31,7 +31,7 @@ class updateItemsRequests extends FormRequest
             'code' => [ 'string'],
             'sectorType' => [new Enum(sectorType::class)],
             'unitType' => [new Enum(unitType::class)],
-            'name' => [ 'string'],
+            'name' => ['string','min:4'],
             'size' => [ 'numeric', 'min:1'],
             'weight' => [ 'numeric', 'min:1'],
             'quantity' => [ 'numeric', 'min:1'],

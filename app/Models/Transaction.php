@@ -43,6 +43,17 @@ class Transaction extends Model
     {
         return $this->belongsTo(Warehouse::class);
     }
+
+    public function transactionItem()
+    {
+        return $this->hasMany(transactionItem::class);
+    }
+    
+    public function transactionWarehouse()
+    {
+        return $this->hasMany(transactionWarehouse::class);
+    }
+
     public static function getDisk()
     {
         return Storage::disk('transactions');

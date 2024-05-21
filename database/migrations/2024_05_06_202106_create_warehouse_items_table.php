@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('warehouse_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Warehouse::class)->onDelete('cascade');
-            $table->foreignIdFor(Item::class);
+            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
             $table->softDeletes();

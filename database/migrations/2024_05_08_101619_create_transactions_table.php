@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('transactions',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignIdFor(Donor::class)->nullable();
-                $table->foreignIdFor(Warehouse::class);
+                $table->foreignId('donor_id')->constrained()->nullable();
+                $table->foreignId('warehouse_id')->constrained();
                 $table->boolean('is_convoy');
                 $table->string('notes')->nullable();
-                $table->string('code');
+                $table->string('code')->nullable();
                 $table->string('status');
                 $table->date('date');
                 $table->integer('waybill_num');

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transaction_warehouses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Transaction::class);
-            $table->foreignIdFor(\App\Models\Warehouse::class);
+            $table->foreignId('transaction_id')->constrained();
+            $table->foreignId('warehouse_id')->constrained();
             $table->string('transaction_type');
             $table->string('transaction_mode_type');
             $table->timestamps();

@@ -7,6 +7,7 @@ use App\Http\Repositories\QRImageWithLogo;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
 use App\Http\Resources\TransactionResource;
+use App\Http\Resources\DonorTransactionResource;
 use App\Models\Transaction;
 use App\Services\TransactionService;
 use App\Traits\FileUpload;
@@ -16,6 +17,7 @@ use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
@@ -120,6 +122,12 @@ class TransactionController extends Controller
         
         $data = $this->transactionService->restore($request);
         return [$data['message'],$data['code']];
+    }
+
+    public function showDonor()
+    {
+        $data = $this->transactionService->showDonor(Auth::user()->id);
+        return $this->showAll($data['Transaction'],DonorTransactionResource::class,$data['message']);
     }
 
 }

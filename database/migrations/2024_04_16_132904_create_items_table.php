@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->string('sectorType');
             $table->string('unitType');
             $table->integer('size');
