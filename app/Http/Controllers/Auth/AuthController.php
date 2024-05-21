@@ -30,10 +30,10 @@ class AuthController extends Controller
 
     }
 
-    public function logout(Request $request):JsonResponse
+    public function logout():JsonResponse
     {
 
-            $userData=$this->authServices->logout($request);
+            $userData=$this->authServices->logout();
             return Response::Success($userData['User'],$userData['message']);
 
     }
