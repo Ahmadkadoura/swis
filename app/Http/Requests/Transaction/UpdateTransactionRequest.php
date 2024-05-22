@@ -28,7 +28,6 @@ class UpdateTransactionRequest extends FormRequest
             'warehouse_id' => 'exists:warehouses,id',
             'is_convoy' => 'boolean',
             'notes' => 'nullable|string',
-            'code' => 'string',
             'status' => new Enum(transactionStatusType::class),
             'date' => 'date',
             'waybill_num' => 'integer',

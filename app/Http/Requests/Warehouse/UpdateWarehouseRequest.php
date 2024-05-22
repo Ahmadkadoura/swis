@@ -23,7 +23,6 @@ class UpdateWarehouseRequest extends FormRequest
     {
         return [
             'name'      => 'string|min:4',
-            'code'      => 'string',
             // 'location'  => '',
             'branch_id' => 'integer|exists:branches,id',
             'capacity'  => 'integer|min:0',

@@ -19,4 +19,9 @@ class WarehouseItem extends Model
     {
         return $this->belongsTo(Item::class);
     }
+
+    public function warehouse():BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
 }

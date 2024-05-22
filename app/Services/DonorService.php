@@ -15,7 +15,7 @@ class DonorService extends baseServics
 
         $data =Donor::with('user')->paginate(10);
         if ($data->isEmpty()){
-            $message="There are no donor at the moment";
+            $message="There are no donors at the moment";
         }else
         {
             $message="Donor indexed successfully";

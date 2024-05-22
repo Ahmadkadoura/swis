@@ -8,6 +8,8 @@ use App\Http\Requests\Warehouse\UpdateWarehouseRequest;
 use App\Http\Resources\WarehouseResource;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\KeeperWarehouseResource;
 use App\Http\Responses\Response;
 use App\Services\warehouseService;
 use Illuminate\Http\JsonResponse;
@@ -80,9 +82,17 @@ class WarehouseController extends Controller
         $data=$this->warehouseService->showDeleted();
         return $this->showAll($data['Warehouse'],WarehouseResource::class,$data['message']);
     }
-    public function restore(Request $request){
-        
+
+    public function restore(Request $request)
+    {    
         $data = $this->warehouseService->restore($request);
         return [$data['message'],$data['code']];
     }
+
+    public function showKeeper()
+    {
+        $data = $this->warehouseService->showKeeper(Auth::user()->id);
+        return $this->showAll($data['Warehouse'],KeeperWarehouseResource::class,$data['message']);
+    }
+
 }

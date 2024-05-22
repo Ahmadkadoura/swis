@@ -53,11 +53,13 @@ Route::controller(itemController::class)->group(function(){
 Route::controller(WarehouseController::class)->group(function(){
     Route::post('warehouses/restore','restore');
     Route::get('warehouses/showDeleted','showDeleted');
+    Route::get('warehouses/showKeeper','showKeeper');
 });
 
 Route::controller(TransactionController::class)->group(function(){
     Route::post('transactions/restore','restore');
     Route::get('transactions/showDeleted','showDeleted');
+    Route::get('transactions/showDonor','showDonor');
 });
 
 Route::controller(UserController::class)->group(function(){

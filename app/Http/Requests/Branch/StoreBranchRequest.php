@@ -23,7 +23,6 @@ class StoreBranchRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|min:4',
-            'code'      => 'required|string',
             'parent_id' => 'nullable|integer|exists:branches,id',
             'phone'     => 'required|unique:branches,phone',
             'address'   => 'required|string',

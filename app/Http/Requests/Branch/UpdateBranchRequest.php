@@ -23,7 +23,6 @@ class UpdateBranchRequest extends FormRequest
     {
         return [
             'name' => 'string|min:4',
-            'code' => 'string',
             'parent_id' => 'nullable|integer|exists:branches,id',
             'phone' => 'string|unique:branches,phone',
             'address' => 'string',

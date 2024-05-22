@@ -28,7 +28,6 @@ class StoreTransactionRequest extends FormRequest
             'warehouse_id' => 'required|exists:warehouses,id',
             'is_convoy' => 'required|boolean',
             'notes' => 'nullable|string',
-            'code' => 'required|string',
             'status' => 'required',new Enum(transactionStatusType::class),
             'date' => 'required|date|after:yesterday',
             'waybill_num' => 'required|integer',

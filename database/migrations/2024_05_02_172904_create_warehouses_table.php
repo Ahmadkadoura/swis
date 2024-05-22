@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->geometry('location')->nullable();
             $table->foreignIdFor(Branch::class)->onDelete('cascade');
             $table->integer('capacity');
