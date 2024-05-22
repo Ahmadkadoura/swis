@@ -42,6 +42,7 @@ class AuthController extends Controller
     {
 
             $userData=$this->authServices->register($request->validated());
+            
             return Response::Success($userData['User'],$userData['message']);
 
     }
