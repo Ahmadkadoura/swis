@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DriverResource extends JsonResource
+class   DriverResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,13 +14,14 @@ class DriverResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $driver =$this->driver;
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'vehicle_number' => $this->vehicle_number,
-            'phone' => $this->phone,
-            'national_id' => $this->national_id,
-            'transportation_company_name' => $this->transportation_company_name,
+            'id' => $driver->id,
+            'name' => $driver->name,
+            'vehicle_number' => $driver->vehicle_number,
+            'phone' => $driver->phone,
+            'national_id' => $driver->national_id,
+            'transportation_company_name' => $driver->transportation_company_name,
 
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\QRImageWithLogo;
+use App\Http\Repositories\transactionRepository;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
 use App\Http\Resources\TransactionResource;
@@ -23,16 +24,16 @@ use Illuminate\Support\Facades\Storage;
 class TransactionController extends Controller
 {
     use FileUpload;
-    private TransactionService $transactionService;
-    public function __construct(TransactionService $transactionService)
+    private transactionRepository $transactionRepository;
+    public function __construct(transactionRepository $transactionRepository)
     {
-        $this->transactionService = $transactionService;
+        $this->transactionRepository = $transactionRepository;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-        $data=$this->transactionService->index();
+        $data=$this->transactionRepository->index();
         return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -52,7 +53,7 @@ class TransactionController extends Controller
             $fileName ='Transaction/'.'waybill_Images/' . $file->hashName() ;
             $imagePath = $this->createFile($request->file('waybill_img'), Transaction::getDisk(),filename:  $fileName);
             $dataItem['waybill_img'] = $imagePath;
-            $transactionData=$this->transactionService->create($dataItem);
+            $transactionData=$this->transactionRepository->create($dataItem);
         }
 //        if ($request->hasFile('qr')) {
 //            $file = $request->file('qr');
@@ -100,7 +101,7 @@ class TransactionController extends Controller
             $imagePath = $this->createFile($request->file('waybill_img'), Transaction::getDisk(),filename:  $name);
             $dataItem['waybill_img'] = $imagePath;
         }
-        $data = $this->transactionService->update($dataItem, $transaction);
+        $data = $this->transactionRepository->update($dataItem, $transaction);
         return $this->showOne($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -108,26 +109,21 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        $data = $this->transactionService->destroy($transaction);
+        $data = $this->transactionRepository->destroy($transaction);
         return [$data['message'],$data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->transactionService->showDeleted();
+        $data=$this->transactionRepository->showDeleted();
         return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->transactionService->restore($request);
+
+        $data = $this->transactionRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 
-    public function showDonor()
-    {
-        $data = $this->transactionService->showDonor(Auth::user()->id);
-        return $this->showAll($data['Transaction'],DonorTransactionResource::class,$data['message']);
-    }
 
 }

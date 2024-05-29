@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\DonorController;
+use App\Http\Controllers\Api\Admin\DonorItemController;
 use App\Http\Controllers\Api\Admin\DriverController;
 use App\Http\Controllers\Api\Admin\itemController;
 use App\Http\Controllers\Api\Admin\BranchController;
@@ -10,6 +11,11 @@ use App\Http\Controllers\Api\Admin\TransactionItemController;
 use App\Http\Controllers\Api\Admin\TransactionWarehouseController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\WarehouseController;
+use App\Http\Controllers\Api\keeper\WarehouseController as keeperWarehouseController;
+use App\Http\Controllers\Api\keeper\itemController as keeperItemController;
+use App\Http\Controllers\Api\keeper\transactionController as keeperTransactionController;
+use App\Http\Controllers\Api\Donor\transactionController as DonorTransactionController;
+use App\Http\Controllers\Api\Donor\DonorItemController as DonorItemForDonorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,13 +59,12 @@ Route::controller(itemController::class)->group(function(){
 Route::controller(WarehouseController::class)->group(function(){
     Route::post('warehouses/restore','restore');
     Route::get('warehouses/showDeleted','showDeleted');
-    Route::get('warehouses/showKeeper','showKeeper');
 });
+
 
 Route::controller(TransactionController::class)->group(function(){
     Route::post('transactions/restore','restore');
     Route::get('transactions/showDeleted','showDeleted');
-    Route::get('transactions/showDonor','showDonor');
 });
 
 Route::controller(UserController::class)->group(function(){
@@ -81,6 +86,21 @@ Route::controller(TransactionWarehouseController::class)->group(function(){
     Route::post('transactionWarehouses/restore','restore');
     Route::get('transactionWarehouses/showDeleted','showDeleted');
 });
+Route::controller(DonorItemController::class)->group(function(){
+    Route::post('donorItems/restore','restore');
+    Route::get('donorItems/showDeleted','showDeleted');
+});
+
+Route::get('showWarehouseForKeeper',[keeperWarehouseController::class,'show']);
+Route::get('indexItemForKeeper',[keeperItemController::class,'index']);
+Route::get('showItemForKeeper/{item_id}/{warehouse_id}',[keeperItemController::class,'show']);
+Route::get('indexTransactionForKeeper',[keeperTransactionController::class,'index']);
+Route::get('showTransactionForKeeper/{transaction_id}/{warehouse_id}',[keeperTransactionController::class,'show']);
+
+Route::get('indexTransactionForDonor',[DonorTransactionController::class,'index']);
+Route::get('showTransactionForDonor/{transaction_id}',[DonorTransactionController::class,'show']);
+Route::get('indexItemForDonor',[DonorItemForDonorController::class,'index']);
+Route::get('showItemForDonor/{item_id}',[DonorItemForDonorController::class,'show']);
 
 Route::apiResources([
     'drivers'               => DriverController::class,
@@ -93,6 +113,7 @@ Route::apiResources([
     'transactions'          => TransactionController::class,
     'transactionItems'      => TransactionItemController::class,
     'transactionWarehouses' => TransactionWarehouseController::class,
+    'donorItems'            => DonorItemController::class,
 ]);
 
 

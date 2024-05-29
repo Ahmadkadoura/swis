@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->integer('waybill_num');
                 $table->string('waybill_img');
                 $table->string('qr_code')->nullable();
+                $table->string('CTN')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });

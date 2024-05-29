@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KeeperTransactionResource extends JsonResource
+class transactionItemForDonorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,9 @@ class KeeperTransactionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'transaction'            =>$this->transaction,
-            'transaction_type'       =>$this->transaction_type,
-            'transaction_mode_type'  =>$this->transaction_mode_type
+            'id' => $this->item->id,
+            'item' => $this->item->name,
+            'quantity' => $this->quantity,
         ];
     }
 }

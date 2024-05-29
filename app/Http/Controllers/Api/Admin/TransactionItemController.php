@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\transactionItemRepository;
 use App\Http\Requests\Transaction\storeTransactionItemRequest;
 use App\Http\Requests\Transaction\UpdateTransactionItemRequest;
-use App\Http\Resources\TransactionItemResource;
+use App\Http\Resources\AdminTransactionItemResource;
 use App\Models\transactionItem;
 use App\Services\TransactionItemService;
 use Illuminate\Http\JsonResponse;
@@ -13,26 +14,26 @@ use Illuminate\Http\Request;
 
 class TransactionItemController extends Controller
 {
-    private TransactionItemService $transactionItemService;
+    private transactionItemRepository $transactionItemRepository;
 
-    public function __construct(TransactionItemService $transactionItemService)
+    public function __construct(transactionItemRepository $transactionItemRepository)
     {
-        $this->transactionItemService = $transactionItemService;
+        $this->transactionItemRepository = $transactionItemRepository;
         $this->middleware(['auth:sanctum']);
     }
 
     public function index(): JsonResponse
     {
 
-        $data = $this->transactionItemService->index();
-        return $this->showAll($data['TransactionItem'], TransactionItemResource::class, $data['message']);
+        $data = $this->transactionItemRepository->index();
+        return $this->showAll($data['TransactionItem'], AdminTransactionItemResource::class, $data['message']);
 
     }
 
     public function show(transactionItem $transactionItem): JsonResponse
     {
 
-        return $this->showOne($transactionItem, TransactionItemResource::class);
+        return $this->showOne($transactionItem, AdminTransactionItemResource::class);
 
     }
 
@@ -40,8 +41,8 @@ class TransactionItemController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->transactionItemService->create($dataItem);
-        return $this->showOne($data['TransactionItem'], TransactionItemResource::class, $data['message']);
+        $data = $this->transactionItemRepository->create($dataItem);
+        return $this->showOne($data['TransactionItem'], AdminTransactionItemResource::class, $data['message']);
 
     }
 
@@ -49,27 +50,27 @@ class TransactionItemController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->transactionItemService->update($dataItem, $transactionItem);
-        return $this->showOne($data['TransactionItem'], TransactionItemResource::class, $data['message']);
+        $data = $this->transactionItemRepository->update($dataItem, $transactionItem);
+        return $this->showOne($data['TransactionItem'], AdminTransactionItemResource::class, $data['message']);
 
     }
 
 
     public function destroy(transactionItem $transactionItem)
     {
-        $data = $this->transactionItemService->destroy($transactionItem);
+        $data = $this->transactionItemRepository->destroy($transactionItem);
         return [$data['message'], $data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
-    {   
-        $data=$this->transactionItemService->showDeleted();
-        return $this->showAll($data['transactionItem'],TransactionItemResource::class,$data['message']); //data key undefined
+    {
+        $data=$this->transactionItemRepository->showDeleted();
+        return $this->showAll($data['transactionItem'],AdminTransactionItemResource::class,$data['message']); //data key undefined
     }
     public function restore(Request $request){
-        
-        $data = $this->transactionItemService->restore($request);
+
+        $data = $this->transactionItemRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 }

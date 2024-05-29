@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\userRepository;
 use App\Http\Requests\User\storeUserRequests;
 use App\Http\Requests\User\updateUserRequests;
 use App\Http\Resources\UserResource;
@@ -16,16 +17,16 @@ use Illuminate\Http\JsonResponse;
 class UserController extends Controller
 {
     use FileUpload;
-    private userService $userService;
-    public function __construct(userService $userService)
+    private userRepository $userRepository;
+    public function __construct(userRepository $userRepository)
     {
-        $this->userService = $userService;
+        $this->userRepository =$userRepository;
         $this->middleware(['auth:sanctum']);
     }
     public function index()
     {
 
-        $data=$this->userService->index();
+        $data=$this->userRepository->index();
         return $this->showAll($data['User'],UserResource::class,$data['message']);
     }
 
@@ -45,7 +46,7 @@ class UserController extends Controller
             $dataUser['photo'] = $imagePath;
         }
 
-        $data=$this->userService->create($dataUser);
+        $data=$this->userRepository->create($dataUser);
         return $this->showOne($data['User'],UserResource::class,$data['message']);
 
     }
@@ -59,7 +60,7 @@ class UserController extends Controller
             $imagePath = $this->createFile($request->file('photo'), User::getDisk(), $name);
             $dataUser['photo'] = $imagePath;
         }
-        $data = $this->userService->update($dataUser, $user);
+        $data = $this->userRepository->update($dataUser, $user);
         return $this->showOne($data['User'],UserResource::class,$data['message']);
 
     }
@@ -67,7 +68,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $data = $this->userService->destroy($user);
+        $data = $this->userRepository->destroy($user);
 
       return [$data['message'],$data['code']];
 
@@ -75,12 +76,12 @@ class UserController extends Controller
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->userService->showDeleted();
+        $data=$this->userRepository->showDeleted();
         return $this->showAll($data['User'],UserResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->userService->restore($request);
+
+        $data = $this->userRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 

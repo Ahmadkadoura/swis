@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\transactionWarehousesRepository;
 use App\Http\Requests\Transaction\storeTransactionWarehouseRequest;
 use App\Http\Requests\Transaction\UpdateTransactionWarehouseRequest;
 use App\Http\Resources\TransactionWarehouseResource;
@@ -13,19 +14,19 @@ use Illuminate\Http\Request;
 
 class TransactionWarehouseController extends Controller
 {
-    private TransactionWarehouseService $transactionWarehouseService;
+    private transactionWarehousesRepository $transactionWarehousesRepository;
 
-    public function __construct(TransactionWarehouseService $transactionWarehouseService)
+    public function __construct(transactionWarehousesRepository $transactionWarehousesRepository)
     {
-        $this->transactionWarehouseService = $transactionWarehouseService;
+        $this->transactionWarehousesRepository =$transactionWarehousesRepository;
         $this->middleware(['auth:sanctum']);
     }
 
     public function index(): JsonResponse
     {
 
-        $data = $this->transactionWarehouseService->index();
-        return $this->showAll($data['transactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
+        $data = $this->transactionWarehousesRepository->index();
+        return $this->showAll($data['TransactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
 
     }
 
@@ -40,8 +41,8 @@ class TransactionWarehouseController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->transactionWarehouseService->create($dataItem);
-        return $this->showOne($data['transactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
+        $data = $this->transactionWarehousesRepository->create($dataItem);
+        return $this->showOne($data['TransactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
 
     }
 
@@ -49,27 +50,27 @@ class TransactionWarehouseController extends Controller
     {
         $dataItem = $request->validated();
 
-        $data = $this->transactionWarehouseService->update($dataItem, $transactionWarehouse);
-        return $this->showOne($data['transactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
+        $data = $this->transactionWarehousesRepository->update($dataItem, $transactionWarehouse);
+        return $this->showOne($data['TransactionWarehouse'], TransactionWarehouseResource::class, $data['message']);
 
     }
 
 
     public function destroy(transactionWarehouse $transactionWarehouse)
     {
-        $data = $this->transactionWarehouseService->destroy($transactionWarehouse);
+        $data = $this->transactionWarehousesRepository->destroy($transactionWarehouse);
         return [$data['message'], $data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->transactionWarehouseService->showDeleted();
-        return $this->showAll($data['transactionWarehouse'],TransactionWarehouseResource::class,$data['message']);
+        $data=$this->transactionWarehousesRepository->showDeleted();
+        return $this->showAll($data['TransactionWarehouse'],TransactionWarehouseResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->transactionWarehouseService->restore($request);
+
+        $data = $this->transactionWarehousesRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 }

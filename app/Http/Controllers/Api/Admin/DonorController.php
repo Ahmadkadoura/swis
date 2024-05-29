@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\donorRepository;
 use App\Http\Requests\Donor\storeDonorRequest;
 use App\Http\Requests\Donor\UpdateDonorRequest;
 use App\Http\Resources\DonorResource;
@@ -13,17 +14,17 @@ use Illuminate\Http\Request;
 
 class DonorController extends Controller
 {
-    private DonorService $donorService;
+    private donorRepository $donorRepository;
 
-    public function __construct(DonorService $donorService)
+    public function __construct(donorRepository $donorRepository)
     {
-        $this->donorService = $donorService;
+        $this->donorRepository =$donorRepository;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-        $data=$this->donorService->index();
+        $data=$this->donorRepository->index();
         return $this->showAll($data['Donor'],DonorResource::class,$data['message']);
 
     }
@@ -40,7 +41,7 @@ class DonorController extends Controller
     {
         $newData=$request->validated();
 
-        $data=$this->donorService->create($newData);
+        $data=$this->donorRepository->create($newData);
         return $this->showOne($data['Donor'],DonorResource::class,$data['message']);
 
     }
@@ -50,7 +51,7 @@ class DonorController extends Controller
     {
         $newData=$request->validated();
 
-        $data = $this->donorService->update($newData, $donor);
+        $data = $this->donorRepository->update($newData, $donor);
         return $this->showOne($data['Donor'],DonorResource::class,$data['message']);
 
     }
@@ -59,19 +60,19 @@ class DonorController extends Controller
     public function destroy(Donor $donor)
     {
 
-        $data = $this->donorService->destroy($donor);
+        $data = $this->donorRepository->destroy($donor);
         return [$data['message'],$data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->donorService->showDeleted();
+        $data=$this->donorRepository->showDeleted();
         return $this->showAll($data['Donor'],DonorResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->donorService->restore($request);
+
+        $data = $this->donorRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 }

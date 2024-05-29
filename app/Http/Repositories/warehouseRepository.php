@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
 use App\Models\Warehouse;
 
-class warehouseService extends baseServics
+class warehouseRepository extends baseRepository
 {
     public function __construct(Warehouse $model)
     {
@@ -46,9 +46,10 @@ class warehouseService extends baseServics
 //    }
 
     public function showWarehouseForKeeper($user_id){
+
         $data = Warehouse::where('user_id',$user_id)
-                         ->with('WarehouseItem.item','transactionWarehouse.transaction')
-                         ->get();
+            ->with('WarehouseItem.item','parentWarehouse')
+            ->get();
         if ($data->isEmpty()){
             $message="There are no Warehouse at the moment";
         }

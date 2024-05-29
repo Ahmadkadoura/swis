@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KeeperItemResource extends JsonResource
+class indexKeeperItemResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,9 @@ class KeeperItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-                'item' => $this->item,
-                'quantity' => $this->quantity,
+            'items'=>$this->warehouseItem->map(function ($warehouseItem){
+                return new ItemInWarehouseResource($warehouseItem);
+            }),
             ];
     }
 }

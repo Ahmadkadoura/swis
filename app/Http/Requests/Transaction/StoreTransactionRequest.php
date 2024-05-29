@@ -33,6 +33,7 @@ class StoreTransactionRequest extends FormRequest
             'waybill_num' => 'required|integer',
             'waybill_img' => 'required|image',
             'qr_code' => 'image',
+            'CTN' => 'string',
         ];
     }
 }
