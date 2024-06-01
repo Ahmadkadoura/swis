@@ -28,7 +28,7 @@ class TransactionResource extends JsonResource
             'date' => $this->date,
             'waybill_num' => $this->waybill_num,
             'waybill_img' => $this->imageUrl('waybill_img'),
-            'qr_code' => $this->qr,
+            'qr_code' => $this->imageUrl('qr_code'),
             'CTN'=>$this->CTN,
             'transaction_warehouses' => $this->transactionWarehouse->map(function ($transactionWarehouse) {
                 return [

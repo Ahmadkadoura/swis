@@ -3,8 +3,11 @@
 namespace Database\Factories;
 
 use App\Enums\transactionStatusType;
+use App\Http\services\QRCodeService;
 use App\Models\Donor;
+use App\Models\Transaction;
 use App\Models\Warehouse;
+use App\Traits\QrCodeHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -12,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TransactionFactory extends Factory
 {
+    use QrCodeHelper;
     /**
      * Define the model's default state.
      *
@@ -29,7 +33,18 @@ class TransactionFactory extends Factory
             'date' => $this->faker->date(),
             'waybill_num' => $this->faker->numberBetween(1000, 9999),
             'waybill_img' => $this->faker->imageUrl(),
-            'qr_code' => $this->faker->imageUrl(),
+            'qr_code' => null,
+            'CTN'=>$this->faker->numberBetween(1000, 9999),
         ];
+    }
+    public function configure()
+    {
+        return $this->afterCreating(function (Transaction $transaction) {
+            $qrCodeService = app(QRCodeService::class);
+            $qrCodePath = $qrCodeService->generateQRCode( $transaction);
+
+            $transaction->qr_code = $qrCodePath;
+            $transaction->save();
+        });
     }
 }
