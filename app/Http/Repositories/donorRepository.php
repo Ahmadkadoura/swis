@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
 use App\Models\Donor;
 
-class DonorService extends baseServics
+class donorRepository extends baseRepository
 {
     public function __construct(Donor $model)
     {
@@ -22,6 +22,4 @@ class DonorService extends baseServics
         }
         return ['message'=>$message,"Donor"=>$data];
     }
-
-
 }

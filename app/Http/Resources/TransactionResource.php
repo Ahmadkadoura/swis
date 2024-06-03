@@ -21,7 +21,6 @@ class TransactionResource extends JsonResource
         return [
             'id' => $this->id,
             'donor_id' => $this->donor->user->name,
-            'warehouse_id' => $this->warehouse->name,
             'is_convoy' => $this->is_convoy,
             'notes' => $this->notes,
             'code' => $this->code,
@@ -29,7 +28,15 @@ class TransactionResource extends JsonResource
             'date' => $this->date,
             'waybill_num' => $this->waybill_num,
             'waybill_img' => $this->imageUrl('waybill_img'),
-            'qr_code' => $this->qr,
-            ];
+            'qr_code' => $this->imageUrl('qr_code'),
+            'CTN'=>$this->CTN,
+            'transaction_warehouses' => $this->transactionWarehouse->map(function ($transactionWarehouse) {
+                return [
+                    'warehouse_id' => $transactionWarehouse->warehouse->name,
+                    'transaction_type' => $transactionWarehouse->transaction_type,
+                    'transaction_mode_type' => $transactionWarehouse->transaction_mode_type,
+                ];
+            }),
+        ];
     }
 }

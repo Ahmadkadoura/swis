@@ -28,7 +28,7 @@ class storeUserRequests extends FormRequest
             'contact_email' => ['required', 'string','email'],
             'name' => ['required', 'string','min:4'],
             'phone' => ['required',Rule::unique('Users', 'phone'),'phone:sy,INTERNATIONAL'],
-            'photo' => [ 'required', 'string'],
+            'photo' => [ 'required', 'image'],
         ];
     }
 }

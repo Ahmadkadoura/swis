@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
 use App\Models\transactionWarehouse;
 
-class TransactionWarehouseService extends baseServics
+class transactionWarehousesRepository extends baseRepository
 {
     public function __construct(transactionWarehouse $model)
     {
@@ -22,5 +22,5 @@ class TransactionWarehouseService extends baseServics
         }
         return ['message'=>$message,"TransactionWarehouse"=>$data];
     }
-}
 
+}

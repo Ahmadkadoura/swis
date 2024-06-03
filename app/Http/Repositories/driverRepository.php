@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
 use App\Models\Driver;
 
-class driverService extends baseServics
+class driverRepository extends baseRepository
 {
     public function __construct(Driver $model)
     {

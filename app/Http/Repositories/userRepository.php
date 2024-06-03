@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
-class userService extends baseServics
+class userRepository extends baseRepository
 {
     public function __construct(User $model)
     {

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
 use App\Models\Branch;
-use Illuminate\Database\Eloquent\Model;
 
-class branchService extends baseServics
+class branchRrpository extends baseRepository
 {
     public function __construct(Branch $model)
     {
@@ -24,6 +23,4 @@ class branchService extends baseServics
         }
         return ['message'=>$message,"Branch"=>$data];
     }
-
-
 }

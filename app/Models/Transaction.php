@@ -23,6 +23,7 @@ class Transaction extends Model
         'waybill_num',
         'waybill_img',
         'qr_code',
+        'CTN',
     ];
 
     protected $casts = [
@@ -34,21 +35,17 @@ class Transaction extends Model
         return $this->belongsTo(Donor::class);
     }
 
-    public function drivers()
+    public function driverTransaction()
     {
-        return $this->belongsToMany(Driver::class);
+        return $this->hasMany(transactionDriver::class);
     }
 
-    public function warehouse():BelongsTo
-    {
-        return $this->belongsTo(Warehouse::class);
-    }
 
     public function transactionItem()
     {
         return $this->hasMany(transactionItem::class);
     }
-    
+
     public function transactionWarehouse()
     {
         return $this->hasMany(transactionWarehouse::class);

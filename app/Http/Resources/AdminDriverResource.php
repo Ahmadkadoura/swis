@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class itemsResource extends JsonResource
+class AdminDriverResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,11 @@ class itemsResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'code' => $this->code,
-            'sectorType' => $this->sectorType,
-            'unitType' => $this->unitType,
-            'size' => $this->size,
-            'weight' => $this->weight,
-            'quantity in the system' => $this->quantity,
+            'vehicle_number' => $this->vehicle_number,
+            'phone' => $this->phone,
+            'national_id' => $this->national_id,
+            'transportation_company_name' => $this->transportation_company_name,
+
         ];
     }
 }

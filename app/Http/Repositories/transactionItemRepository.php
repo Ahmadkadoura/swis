@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Services;
-
+namespace App\Http\Repositories;
 
 use App\Models\transactionItem;
 
-class TransactionItemService extends baseServics
+class transactionItemRepository extends baseRepository
 {
     public function __construct(transactionItem $model)
     {
@@ -24,4 +23,3 @@ class TransactionItemService extends baseServics
         return ['message'=>$message,"TransactionItem"=>$data];
     }
 }
-

@@ -17,7 +17,6 @@ class DonorTransactionResource extends JsonResource
         return [
             'id' => $this->id,
             'donor_id' => $this->donor->id,
-            'warehouse_id' => $this->warehouse->name,
             'is_convoy' => $this->is_convoy,
             'notes' => $this->notes,
             'code' => $this->code,
@@ -26,8 +25,12 @@ class DonorTransactionResource extends JsonResource
             'waybill_num' => $this->waybill_num,
             'waybill_img' => $this->imageUrl('waybill_img'),
             'qr_code' => $this->qr,
+            'CTN'=>$this->CTN,
+            'driver'=>$this->driverTransaction->map(function ($transactionDriver){
+                return new DriverResource($transactionDriver);
+            }),
             'items'=>$this->transactionItem->map(function ($transactionItem){
-                return new itemsResource($transactionItem->item);
+                return new transactionItemForDonorResource($transactionItem);
             }),
         ];
     }

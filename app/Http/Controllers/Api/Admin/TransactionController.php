@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\QRImageWithLogo;
+use App\Http\Repositories\transactionRepository;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\DonorTransactionResource;
+use App\Http\services\QRCodeService;
 use App\Models\Transaction;
 use App\Services\TransactionService;
 use App\Traits\FileUpload;
+use App\Traits\QrCodeHelper;
 use chillerlan\QRCode\Common\EccLevel;
 use chillerlan\QRCode\Data\QRMatrix;
 use chillerlan\QRCode\QRCode;
@@ -23,16 +26,19 @@ use Illuminate\Support\Facades\Storage;
 class TransactionController extends Controller
 {
     use FileUpload;
-    private TransactionService $transactionService;
-    public function __construct(TransactionService $transactionService)
+    private transactionRepository $transactionRepository;
+    private QRCodeService $qrCodeService;
+
+    public function __construct(transactionRepository $transactionRepository,QRCodeService $qrCodeService)
     {
-        $this->transactionService = $transactionService;
+        $this->transactionRepository = $transactionRepository;
+        $this->qrCodeService = $qrCodeService;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-        $data=$this->transactionService->index();
+        $data=$this->transactionRepository->index();
         return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -46,48 +52,18 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request): JsonResponse
     {
         $dataItem=$request->validated();
-        $transactionData=null;
+        $transaction=null;
         if ($request->hasFile('waybill_img')) {
             $file = $request->file('waybill_img');
             $fileName ='Transaction/'.'waybill_Images/' . $file->hashName() ;
             $imagePath = $this->createFile($request->file('waybill_img'), Transaction::getDisk(),filename:  $fileName);
             $dataItem['waybill_img'] = $imagePath;
-            $transactionData=$this->transactionService->create($dataItem);
+            $transaction=$this->transactionRepository->create($dataItem);
         }
-//        if ($request->hasFile('qr')) {
-//            $file = $request->file('qr');
-//            $fileName = 'Transaction/'.'qr_code/' .  $file->hashName();
-//            $imagePath = $this->createFile($request->file('qr'), Transaction::getDisk(), $fileName);
-//            $table_data['qr'] = $imagePath;
-//        } else {
-//            $data = 'http://127.0.0.1:8000/api/transactions/'.$transactionData['Transaction']['id'] ;  // الرابط يلي لح يكون جوا qr
-//            $logoPath = Storage::disk('assets')->path('logo.png');
-//            $options = new QROptions();
-//            $options->version = 5;
-//            $options->outputBase64 = false;
-//            $options->scale = 6;
-//            $options->imageTransparent = false;
-//            $options->drawCircularModules = true;
-//            $options->circleRadius = 0.45;
-//            $options->keepAsSquare = [
-//                QRMatrix::M_FINDER,
-//                QRMatrix::M_FINDER_DOT,
-//            ];
-//            $options->eccLevel = EccLevel::H;
-//            $options->addLogoSpace = true;
-//            $options->logoSpaceWidth = 13;
-//            $options->logoSpaceHeight = 13;
-//            $qrcode = new QRCode($options);
-//            $qrOutputInterface = new QRImageWithLogo($options, $qrcode->getQRMatrix());
-//            $imageData = $qrOutputInterface->dump(null, $logoPath);
-//            $qrcode->render($data);
-//            $fileName = 'qr_code_' . time() . '.png';
-//            $imagePath = 'Transaction/'.'qr_code/'  . $fileName;
-//            Storage::disk('transactions')->put($imagePath, $imageData);
-//            $table_data['qr'] = $imagePath;
-//        }
-
-        return $this->showOne($transactionData['Transaction'],TransactionResource::class,$transactionData['message']);
+        $imagePath=$this->qrCodeService->generateQRCode( $transaction['Transaction']);
+        $dataItem['qr_code'] = $imagePath;
+        $transaction =$this->transactionRepository->update($dataItem,$transaction['Transaction']);
+        return $this->showOne($transaction['Transaction'],TransactionResource::class,$transaction['message']);
 
     }
 
@@ -100,7 +76,7 @@ class TransactionController extends Controller
             $imagePath = $this->createFile($request->file('waybill_img'), Transaction::getDisk(),filename:  $name);
             $dataItem['waybill_img'] = $imagePath;
         }
-        $data = $this->transactionService->update($dataItem, $transaction);
+        $data = $this->transactionRepository->update($dataItem, $transaction);
         return $this->showOne($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -108,26 +84,21 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        $data = $this->transactionService->destroy($transaction);
+        $data = $this->transactionRepository->destroy($transaction);
         return [$data['message'],$data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->transactionService->showDeleted();
+        $data=$this->transactionRepository->showDeleted();
         return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->transactionService->restore($request);
+
+        $data = $this->transactionRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 
-    public function showDonor()
-    {
-        $data = $this->transactionService->showDonor(Auth::user()->id);
-        return $this->showAll($data['Transaction'],DonorTransactionResource::class,$data['message']);
-    }
 
 }

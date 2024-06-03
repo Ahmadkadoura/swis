@@ -33,6 +33,8 @@ class UpdateTransactionRequest extends FormRequest
             'waybill_num' => 'integer',
             'waybill_img' => [ 'image'],
             'qr_code' => 'image',
+            'CTN' => 'string',
+
         ];
     }
 }

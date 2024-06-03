@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Repositories;
 
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class baseServics
+class baseRepository
 {
     protected Model $model;
-
-    /**
-     * BaseRepository constructor.
-     */
     public function __construct(Model $model)
     {
         $this->model = $model;
@@ -47,7 +42,7 @@ class baseServics
         $validatedData=$request;
         $modelName = class_basename($this->model);
 
-       $data = $this->model::find($model->id);
+        $data = $this->model::find($model->id);
         if (!is_null($data)) {
             if (Auth::user()->hasRole('admin')) {
                 // Update the model with the request data
@@ -103,7 +98,7 @@ class baseServics
     }
 
     public function restore($request)
-    { 
+    {
         $ids = $request->input('ids');
         if($ids != null)
         {
@@ -111,7 +106,7 @@ class baseServics
             {
                 $model = $this->model::onlyTrashed()->find($id);
                 if($model) $model->restore();
-                
+
             }
             $message="restored successfully";
             $code=200;
@@ -123,4 +118,5 @@ class baseServics
         }
         return ['message'=>$message,'code'=>$code];
     }
+
 }

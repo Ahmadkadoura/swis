@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\warehouseItemRepository;
 use App\Http\Resources\WarehouseItemResource;
 use App\Models\WarehouseItem;
 use App\Services\warehouseItemService;
@@ -11,11 +12,11 @@ use Illuminate\Http\Request;
 
 class WarehouseItemController extends Controller
 {
-    private warehouseItemService $warehouseItemService;
+    private warehouseItemRepository $warehouseItemRepository;
 
-    public function __construct(warehouseItemService $warehouseItemService)
+    public function __construct(warehouseItemRepository $warehouseItemRepository)
     {
-        $this->warehouseItemService = $warehouseItemService;
+        $this->warehouseItemRepository= $warehouseItemRepository;
         $this->middleware(['auth:sanctum']);
     }
 
@@ -23,7 +24,7 @@ class WarehouseItemController extends Controller
     public function index(): JsonResponse
     {
 
-        $data = $this->warehouseItemService->index();
+        $data = $this->warehouseItemRepository->index();
         return $this->showAll($data['WarehouseItem'], WarehouseItemResource::class, $data['message']);
 
     }
@@ -60,19 +61,19 @@ class WarehouseItemController extends Controller
     public function destroy(WarehouseItem $warehouseItem)
     {
 
-        $data = $this->warehouseItemService->destroy($warehouseItem);
+        $data = $this->warehouseItemRepository->destroy($warehouseItem);
         return [$data['message'], $data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->warehouseItemService->showDeleted();
+        $data=$this->warehouseItemRepository->showDeleted();
         return $this->showAll($data['WarehouseItem'],WarehouseItemResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->warehouseItemService->restore($request);
+
+        $data = $this->warehouseItemRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 }

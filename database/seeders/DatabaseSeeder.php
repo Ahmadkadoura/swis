@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call([TransactionDriverSeeder::class]);
         $this->call([TransactionItemSeeder::class]);
         $this->call([TransactionWarehouseSeeder::class]);
+        $this->call([ DonorItemSeeder::class]);
+
 
         // \App\Models\User::factory(10)->create();
 

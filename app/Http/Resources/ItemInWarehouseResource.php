@@ -15,9 +15,9 @@ class ItemInWarehouseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return[
-            ' item' => [
+
             'id' =>$this->item_id,
-            'name' =>$this->item->name ?? null ],
+            'name' =>$this->item->name ?? null ,
             'quantity' => $this->quantity,];
     }
 }

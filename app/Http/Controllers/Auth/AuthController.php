@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\AuthRepository;
 use App\Http\Requests\Auth\LoginRequests;
 use App\Http\Requests\Auth\registerRequests;
 use App\Http\Responses\Response;
@@ -14,17 +15,17 @@ use Throwable;
 class AuthController extends Controller
 {
 
-    private AuthServices $authServices;
-    public function __construct(AuthServices $authServices)
+    private AuthRepository $authRepository;
+    public function __construct(AuthRepository $authRepository)
     {
-        $this->authServices = $authServices;
+        $this->AuthRepository =$authRepository;
         $this->middleware(['auth:sanctum'])->only('logout');
     }
 
     public function login(LoginRequests $request):JsonResponse
     {
 
-            $userData=$this->authServices->login($request->validated());
+            $userData=$this->AuthRepository->login($request->validated());
 
             return Response::Success($userData['User'],$userData['message'],$userData['code']);
 
@@ -33,7 +34,7 @@ class AuthController extends Controller
     public function logout():JsonResponse
     {
 
-            $userData=$this->authServices->logout();
+            $userData=$this->AuthRepository->logout();
             return Response::Success($userData['User'],$userData['message']);
 
     }
@@ -41,7 +42,8 @@ class AuthController extends Controller
     public function register(registerRequests $request):JsonResponse
     {
 
-            $userData=$this->authServices->register($request->validated());
+            $userData=$this->AuthRepository->register($request->validated());
+
             return Response::Success($userData['User'],$userData['message']);
 
     }

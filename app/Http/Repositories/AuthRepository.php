@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Services;
-
+namespace App\Http\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class AuthServices
+class AuthRepository
 {
-
     public function register($request):array
     {
         $User=User::create([
@@ -58,7 +56,7 @@ class AuthServices
         return ['User' => $user, 'message' => $message, 'code' => $code];
 
 
-}
+    }
     public function logout():array
     {
         $user=Auth::user();

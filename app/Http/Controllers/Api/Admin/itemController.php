@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\itemRepository;
 use App\Http\Requests\Items\storeItemsRequests;
 use App\Http\Requests\Items\updateItemsRequests;
 use App\Http\Resources\itemsResource;
@@ -15,16 +16,16 @@ use Throwable;
 
 class itemController extends Controller
 {
-    private itemService $itemService;
-    public function __construct(itemService $itemService)
+    private itemRepository $itemRepository;
+    public function __construct(itemRepository $itemRepository)
     {
-        $this->itemService = $itemService;
+        $this->itemRepository = $itemRepository;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-            $data=$this->itemService->index();
+            $data=$this->itemRepository->index();
         return $this->showAll($data['Item'],itemsResource::class,$data['message']);
 
     }
@@ -39,7 +40,7 @@ class itemController extends Controller
     {
         $dataItem=$request->validated();
 
-            $data=$this->itemService->create($dataItem);
+            $data=$this->itemRepository->create($dataItem);
         return $this->showOne($data['Item'],itemsResource::class,$data['message']);
 
     }
@@ -48,7 +49,7 @@ class itemController extends Controller
     {
         $dataItem=$request->validated();
 
-            $data = $this->itemService->update($dataItem, $item);
+            $data = $this->itemRepository->update($dataItem, $item);
         return $this->showOne($data['Item'],itemsResource::class,$data['message']);
 
     }
@@ -56,19 +57,19 @@ class itemController extends Controller
 
     public function destroy(Item $item)
     {
-            $data = $this->itemService->destroy($item);
+            $data = $this->itemRepository->destroy($item);
         return [$data['message'],$data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->itemService->showDeleted();
+        $data=$this->itemRepository->showDeleted();
         return $this->showAll($data['Item'],itemsResource::class,$data['message']);
     }
     public function restore(Request $request){
-        
-        $data = $this->itemService->restore($request);
+
+        $data = $this->itemRepository->restore($request);
         return [$data['message'],$data['code']];
     }
 
