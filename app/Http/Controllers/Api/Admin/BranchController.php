@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\baseRepository;
+use App\Http\Repositories\branchRrpository;
 use App\Http\Requests\Branch\StoreBranchRequest;
 use App\Http\Requests\Branch\UpdateBranchRequest;
 use App\Http\Resources\BranchResource;
@@ -17,17 +18,17 @@ use Throwable;
 
 class BranchController extends Controller
 {
-    private baseRepository $baseRepository;
+    private branchRrpository $branchRrpository;
 
-    public function __construct(baseRepository $baseRepository)
+    public function __construct(branchRrpository $branchRrpository)
     {
-        $this->baseRepository =$baseRepository;
+        $this->branchRrpository =$branchRrpository;
         $this->middleware(['auth:sanctum']);
     }
     public function index(): JsonResponse
     {
 
-            $data=$this->baseRepository->index();
+            $data=$this->branchRrpository->index();
         return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
 
     }
@@ -45,7 +46,7 @@ class BranchController extends Controller
     {
         $newData=$request->validated();
 
-            $data=$this->baseRepository->create($newData);
+            $data=$this->branchRrpository->create($newData);
         return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
     }
@@ -55,7 +56,7 @@ class BranchController extends Controller
     {
         $newData=$request->validated();
 
-            $data = $this->baseRepository->update($newData, $branch);
+            $data = $this->branchRrpository->update($newData, $branch);
         return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
     }
@@ -64,19 +65,19 @@ class BranchController extends Controller
     public function destroy(Branch $branch)
     {
 
-            $data = $this->baseRepository->destroy($branch);
+            $data = $this->branchRrpository->destroy($branch);
         return [$data['message'],$data['code']];
 
     }
 
     public function showDeleted(): JsonResponse
     {
-        $data=$this->baseRepository->showDeleted();
+        $data=$this->branchRrpository->showDeleted();
         return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
     }
     public function restore(Request $request){
 
-        $data = $this->baseRepository->restore($request);
+        $data = $this->branchRrpository->restore($request);
         return [$data['message'],$data['code']];
     }
 }

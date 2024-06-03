@@ -14,6 +14,7 @@ class ItemInWarehouseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return[
 
             'id' =>$this->item_id,

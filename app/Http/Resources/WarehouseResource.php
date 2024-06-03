@@ -23,7 +23,7 @@ class WarehouseResource extends JsonResource
                 'id' =>$this->parent_id,
                 'name' =>$this->branch->name ?? null,
             ],
-            'capacity'  => $this->capacity,
+            'Free_capacity'  => $this->capacity,
             'main_Warehouse' => [
                 'id' =>$this->parent_id,
                 'name' =>$this->parentWarehouse->name ?? null],
