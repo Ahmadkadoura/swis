@@ -1,54 +1,68 @@
-import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
-import crescent from "../assets/Crescent.png";
+import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import im from "../assets/results.jpg";
 import { LoginForm } from "../components/LoginForm";
-import { ImageComponent } from "../components/imageComponent";
-import Fonts from "../Fonts";
-export const LoginPage = () => {
-  return (
-    <Box position="relative" width="100vw" height="100vh">
-      <ImageComponent />
-      <VStack
-        paddingY="20px"
-        position="absolute"
-        top="50%"
-        left="50%"
-        transform="translate(-50%, -50%)"
-        spacing="4"
-        width={380}
-        height={380}
-        borderRadius={"5%"}
-        backgroundColor={"gray.500"}
-      >
-        <HStack>
-          <Box>
-            <Fonts />
-            <Text
-              fontFamily="arText"
-              fontSize={19}
-              fontWeight={"bold"}
-              textAlign={"end"}
-            >
-              منظمة الهلال الاحمر العربي السوري
-            </Text>
+import { Logo } from "../components/Logo";
 
-            <Text
-              fontFamily={"enText"}
-              fontWeight={"bold"}
-              fontSize={19}
-              textAlign={"end"}
+export const LoginPage = () => {
+  const innerBoxHeight = "90vh";
+  const innerBoxWidth = 80;
+  const innerBoxImageWidth = (60/100) * innerBoxWidth;
+  const loginFormWidth = (40/100) * innerBoxWidth;
+  return (
+    <Box
+      bgGradient="linear(to-tr,red.600, red.700)"
+      w="100%"
+      height={"100vh"}
+      p={8}
+      color="white"
+    >
+      <Box bg="white" w={innerBoxWidth + 'vw'} height={innerBoxHeight} m="auto" borderRadius={"20"}>
+        <HStack spacing={0}>
+          <Box
+            w={{ md: "0%", lg:innerBoxImageWidth + "vw"}}
+            h={innerBoxHeight}
+            bgImage={im}
+            bgSize={"cover"}
+            bgPosition={"center"}
+            position={"relative"}
+            borderLeftRadius={20}
+          >
+            <Box
+              position="absolute"
+              top="0"
+              left="0"
+              w={"100px"}
+              h={"100px"}
+              borderRadius="full"
+              bg="rgba(255, 255, 255, 0.5)"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              overflow="hidden"
             >
-              SYRIAN ARAB RED CRESCENT
-            </Text>
+              <Logo />
+            </Box>
           </Box>
-          <Image
-            src={crescent}
-            alt="crescent"
-            objectFit="fill"
-            boxSize={"80px"}
-          />
+          <VStack
+            w={{ base: "100%", lg: loginFormWidth  + "vw"}} 
+            h={innerBoxHeight}
+            py="20px"
+            backgroundColor="gray.400"
+            borderRightRadius={20}
+            spacing={4}
+            justifyContent={{base:"center" , lg: "none"}}
+          >
+            <Text
+              color={"gray.800"}
+              fontSize={{ base: "4xl", lg: "5xl" }}
+              paddingTop={"50px"}
+            >
+              Welcome!
+            </Text>
+            <LoginForm width={innerBoxWidth}/>
+          </VStack>
         </HStack>
-        <LoginForm />
-      </VStack>
+      </Box>
     </Box>
   );
 };

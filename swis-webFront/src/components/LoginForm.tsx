@@ -4,20 +4,34 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Text,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import User from "../entities/User";
-import useUserStore from "../stores/userStore";
+import useLogin from "../hooks/useLogin";
+import { MdOutlineMail, MdLockOutline, MdVisibilityOff, MdVisibility } from "react-icons/md";
+import { useState } from "react";
 
-export const LoginForm = () => {
-  const setEmail = useUserStore((s) => s.setEmail);
-  const setPassword = useUserStore((s) => s.setPassword);
+interface Props{
+  width : number;
+}
+
+export const LoginForm = ({width} : Props) => {
+  const Login = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => setShowPassword(!showPassword);
   const handleLogin = (values: User) => {
-    setEmail(values.email!);
-    setPassword(values.password!);
+    Login.mutate({
+      email: values.email,
+      password: values.password,
+    });
   };
+  const FieldWidthL = Math.floor((32/100) * width) + "vw";
+  const FieldWidthB = Math.floor((77/100) * width) + "vw";
   const validationsLogin = yup.object().shape({
     email: yup
       .string()
@@ -28,6 +42,7 @@ export const LoginForm = () => {
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
   });
+
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
@@ -35,43 +50,63 @@ export const LoginForm = () => {
       validationSchema={validationsLogin}
     >
       <Form>
-        <Box >
+        {Login.error && (
+          <Text color="red.700">Check Your Email or Password</Text>
+        )}
+        <Box paddingTop={'50px'}>
           <FormControl id="email">
             <FormLabel fontFamily={"cursive"}>Email</FormLabel>
-            <Box bgColor={"white"} borderRadius={"20"}>
+            <InputGroup>
+              <InputLeftElement
+                
+                pointerEvents="none"
+                children={<MdOutlineMail color="black" />}
+              />
               <Field
                 name="email"
                 as={Input}
                 type="email"
                 placeholder="Email"
                 _placeholder={{ color: "gray.700" }}
-                width={300}
+                borderRadius={'20'}
+                width={{base:FieldWidthB , lg : FieldWidthL}}
+                pl={'30px'}
               />
-            </Box>
+            </InputGroup>
             <ErrorMessage name="email">
               {(msg) => <Text color="red.500">{msg}</Text>}
             </ErrorMessage>
           </FormControl>
-          <FormControl id="password">
-            <FormLabel fontFamily={"cursive"} marginTop={5}>
-              Password
-            </FormLabel>
-            <Box bgColor={"white"} borderRadius={"20"}>
-            <Field
-              name="password"
-              as={Input}
-              type="password"
-              placeholder="Password"
-              _placeholder={{ color: "gray.700" }}
-              width={300}
-            />
-            </Box>
+          <FormControl id="password" marginTop={5}>
+            <FormLabel fontFamily={"cursive"}>Password</FormLabel>
+            <InputGroup >
+              <InputLeftElement
+                pointerEvents="none"
+                children={<MdLockOutline color="black" />}
+              />
+              <Field
+                name="password"
+                as={Input}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                _placeholder={{ color: "gray.700" }}
+                borderRadius={'20'}
+                width={{base:FieldWidthB , lg : FieldWidthL}}
+                pl={'30px'}
+              />
+              <InputRightElement width="4.5rem" >
+                <Button h="1.75rem" size="sm" onClick={toggleShowPassword} bgColor={'gray.400'} >
+                  {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
             <ErrorMessage name="password">
               {(msg) => <Text color="red.500">{msg}</Text>}
             </ErrorMessage>
           </FormControl>
           <Button
-            colorScheme="red"
+            bgColor={'red.600'}
+            color={'white'}
             width="full"
             type="submit"
             marginTop={5}

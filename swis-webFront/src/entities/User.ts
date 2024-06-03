@@ -5,4 +5,5 @@ export default interface User {
   email?: string;
   code?: string;
   type?: string;
+  token?: string;
 }
