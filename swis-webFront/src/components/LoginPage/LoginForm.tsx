@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import User from "../entities/User";
-import useLogin from "../hooks/useLogin";
+import User from "../../entities/User";
+import useLogin from "../../hooks/useLogin";
 import { MdOutlineMail, MdLockOutline, MdVisibilityOff, MdVisibility } from "react-icons/md";
 import { useState } from "react";
 

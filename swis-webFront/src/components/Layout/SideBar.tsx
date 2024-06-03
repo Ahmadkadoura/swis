@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { Link } from "react-router-dom";
-import Mycolor from "../constants";
+import Mycolor from "../../constants";
 export const SideBar = () => {
   const Tabs: Record<string, IconType> = {
     Home:FaHome,

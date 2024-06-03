@@ -1,6 +1,6 @@
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import im from "../assets/results.jpg";
-import { LoginForm } from "../components/LoginForm";
+import { LoginForm } from "../components/LoginPage/LoginForm";
 import { Logo } from "../components/Logo";
 
 export const LoginPage = () => {

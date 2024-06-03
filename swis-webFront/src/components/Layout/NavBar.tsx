@@ -1,12 +1,12 @@
 import { HStack, IconButton, Image } from "@chakra-ui/react";
-import logo from "../assets/LOGO.png";
-import { SearchInput } from "./SearchInput";
-import { ColorModeSwitch } from "./ColorModeSwitch";
+import logo from "../../assets/LOGO.png";
+import { SearchInput } from "../SearchInput";
+import { ColorModeSwitch } from "../ColorModeSwitch";
 import { Link } from "react-router-dom";
-import profile from "../assets/Profile.jfif";
+import profile from "../../assets/Profile.jfif";
 import { IoIosNotifications, IoMdSettings } from "react-icons/io";
-import Mycolor from "../constants";
-import { css, keyframes } from '@emotion/react';
+import Mycolor from "../../constants";
+import { css, keyframes } from "@emotion/react";
 const rotate = keyframes`
   from {
     transform: rotate(0deg);
@@ -20,7 +20,12 @@ const animation = css`
 `;
 export const NavBar = () => {
   return (
-    <HStack justifyContent={"space-between"} bgColor={Mycolor} p={2} color={'white'}>
+    <HStack
+      justifyContent={"space-between"}
+      bgColor={Mycolor}
+      p={2}
+      color={"white"}
+    >
       <Link to={"/Home"}>
         <Image
           src={logo}
@@ -34,10 +39,10 @@ export const NavBar = () => {
       <Link to={"/settings"}>
         <IconButton
           aria-label=""
-          icon={<IoMdSettings size={"30px"} color="white"/>}
+          icon={<IoMdSettings size={"30px"} color="white" />}
           bgColor={Mycolor}
-          _hover={{bg:"red.500"}}
-          css= {animation}
+          _hover={{ bg: "red.500" }}
+          css={animation}
         ></IconButton>
       </Link>
       <SearchInput />
@@ -47,7 +52,7 @@ export const NavBar = () => {
           aria-label=""
           icon={<IoIosNotifications size={"30px"} color="white" />}
           bgColor={Mycolor}
-          _hover={{bg:"red.500"}}
+          _hover={{ bg: "red.500" }}
         ></IconButton>
       </Link>
       <Link to={"/profile"}>

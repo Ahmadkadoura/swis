@@ -1,7 +1,8 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
-import { NavBar } from "../components/NavBar";
-import { SideBar } from "../components/SideBar";
+import { NavBar } from "../components/Layout/NavBar";
+import { SideBar } from "../components/Layout/SideBar";
+
 
 export const Layout = () => {
   return (
