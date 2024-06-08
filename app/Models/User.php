@@ -55,6 +55,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Donor::class);
     }
+    public function wharehouse()
+    {
+        return $this->hasOne(Warehouse::class);
+    }
 
     public static function getDisk()
     {

@@ -31,9 +31,7 @@ class DonorController extends Controller
 
     public function show(Donor $donor): JsonResponse
     {
-
-        return $this->showAll($donor,DonorResource::class);
-
+        return $this->showOne($donor,DonorResource::class);
     }
 
 

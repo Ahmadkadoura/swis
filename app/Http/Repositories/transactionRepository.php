@@ -4,7 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Models\Donor;
 use App\Models\Transaction;
-use App\Models\transactionWarehouse;
+use App\Models\transactionWarehouseItems;
 use App\Models\Warehouse;
 
 class transactionRepository extends baseRepository
@@ -16,7 +16,8 @@ class transactionRepository extends baseRepository
     public function index():array
     {
 
-        $data =Transaction::with(['donor.user','transactionWarehouse.warehouse'])->paginate(10);
+        $data =Transaction::with(['donor.user','transactionWarehouseItem.warehouse','transactionWarehouseItem.item'])
+            ->paginate(10);
         if ($data->isEmpty()){
             $message="There are no Transaction at the moment";
         }else
@@ -28,7 +29,7 @@ class transactionRepository extends baseRepository
     public function indexTransactionForKeeper($user_id)
     {
         $data = Warehouse::where('user_id',$user_id)
-            ->with('transactionWarehouse.transaction')
+            ->with('transactionWarehouseItems.transaction')
             ->get();
 //        var_dump($data);
         if ($data->isEmpty()){
@@ -43,9 +44,9 @@ class transactionRepository extends baseRepository
 
     public function showTransactionForKeeper($transaction_id,$warehouse_id){
 
-        $data = transactionWarehouse::where('transaction_id', $transaction_id)
+        $data = transactionWarehouseItems::where('transaction_id', $transaction_id)
             ->where('warehouse_id', $warehouse_id)
-            ->with('transaction.transactionItem.item','transaction.donor.user','transaction.driverTransaction.driver')
+            ->with('item','transaction.donor.user','transaction.driverTransaction.driver')
             ->first();
 
         if (!$data){
@@ -60,7 +61,7 @@ class transactionRepository extends baseRepository
 
     public function indexTransactionForDonor($donor_id){
         $data = Transaction::where('donor_id',$donor_id)
-            ->with('transactionItem.item','driverTransaction.driver')
+            ->with('transactionWarehouseItem.item','driverTransaction.driver')
             ->get();
         if ($data->isEmpty()){
             $message="There are no transactions at the moment";
@@ -75,7 +76,7 @@ class transactionRepository extends baseRepository
     public function showTransactionForDonor($donor_id,$transactuon_id){
         $data = Transaction::where('donor_id',$donor_id)
             ->where('id',$transactuon_id)
-            ->with('transactionItem.item','driverTransaction.driver')
+            ->with('transactionWarehouseItem.item','driverTransaction.driver')
             ->get();
         if ($data->isEmpty()){
             $message="There are no transactions at the moment";

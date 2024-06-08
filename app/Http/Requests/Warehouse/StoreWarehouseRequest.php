@@ -27,7 +27,7 @@ class StoreWarehouseRequest extends FormRequest
             'branch_id' => 'required|integer|exists:branches,id',
             'capacity'  => 'required|integer|min:0',
             'parent_id' => 'required|integer|exists:warehouses,id',
-            'user_id'   => 'required|integer|exists:users,id',
+            'user_id'   => 'required|unique|integer|exists:users,id',
             'location.latitude' => 'numeric',
             'location.longitude' => 'numeric',
             'is_Distribution_point' => 'required|boolean',

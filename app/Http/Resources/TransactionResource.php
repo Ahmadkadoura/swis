@@ -30,12 +30,11 @@ class TransactionResource extends JsonResource
             'waybill_img' => $this->imageUrl('waybill_img'),
             'qr_code' => $this->imageUrl('qr_code'),
             'CTN'=>$this->CTN,
-            'transaction_warehouses' => $this->transactionWarehouse->map(function ($transactionWarehouse) {
-                return [
-                    'warehouse_id' => $transactionWarehouse->warehouse->name,
-                    'transaction_type' => $transactionWarehouse->transaction_type,
+            'details' => $this->transactionWarehouseitem->map(function ($transactionWarehouse) {
+                return [ 'transaction_type' => $transactionWarehouse->transaction_type,
                     'transaction_mode_type' => $transactionWarehouse->transaction_mode_type,
-                ];
+                    'item' => $transactionWarehouse->item->name ?? null ,
+                    'quantity' => $transactionWarehouse->quantity,];
             }),
         ];
     }

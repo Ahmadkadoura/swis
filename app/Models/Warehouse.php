@@ -36,9 +36,9 @@ class Warehouse extends Model
         return $this->belongsTo(Warehouse::class, 'parent_id');
     }
 
-    public function transactionWarehouse()
+    public function transactionWarehouseItem()
     {
-        return $this->hasMany(transactionWarehouse::class);
+        return $this->hasMany(transactionWarehouseItems::class);
     }
 
     public function user()

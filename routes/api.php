@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\Admin\BranchController;
 use App\Http\Controllers\Api\Admin\WarehouseItemController;
 use App\Http\Controllers\Api\Admin\TransactionController;
 use App\Http\Controllers\Api\Admin\TransactionItemController;
-use App\Http\Controllers\Api\Admin\TransactionWarehouseController;
+use App\Http\Controllers\Api\Admin\TransactionWarehouseItemController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\WarehouseController;
 use App\Http\Controllers\Api\keeper\WarehouseController as keeperWarehouseController;
@@ -77,12 +77,8 @@ Route::controller(WarehouseItemController::class)->group(function(){
     Route::get('warehouseItems/showDeleted','showDeleted');
 });
 
-Route::controller(TransactionItemController::class)->group(function(){
-    Route::post('transactionItems/restore','restore');
-    Route::get('transactionItems/showDeleted','showDeleted');
-});
 
-Route::controller(TransactionWarehouseController::class)->group(function(){
+Route::controller(TransactionWarehouseItemController::class)->group(function(){
     Route::post('transactionWarehouses/restore','restore');
     Route::get('transactionWarehouses/showDeleted','showDeleted');
 });
@@ -111,8 +107,7 @@ Route::apiResources([
     'items'                 => itemController::class,
     'warehouseItems'        => WarehouseItemController::class,
     'transactions'          => TransactionController::class,
-    'transactionItems'      => TransactionItemController::class,
-    'transactionWarehouses' => TransactionWarehouseController::class,
+    'transactionWarehousesItems' => TransactionWarehouseItemController::class,
     'donorItems'            => DonorItemController::class,
 ]);
 

@@ -39,16 +39,9 @@ class Transaction extends Model
     {
         return $this->hasMany(transactionDriver::class);
     }
-
-
-    public function transactionItem()
+       public function transactionWarehouseItem()
     {
-        return $this->hasMany(transactionItem::class);
-    }
-
-    public function transactionWarehouse()
-    {
-        return $this->hasMany(transactionWarehouse::class);
+        return $this->hasMany(transactionWarehouseItems::class);
     }
 
     public static function getDisk()

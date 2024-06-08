@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Enums\transactionModeType;
 use App\Enums\transctionType;
-use App\Enums\transType;
+use App\Enums\transactionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class transactionWarehouse extends Model
+class transactionWarehouseItems extends Model
 {
     use HasFactory,SoftDeletes;
     protected $fillable = [
@@ -17,10 +17,12 @@ class transactionWarehouse extends Model
         'warehouse_id',
         'transaction_type',
         'transaction_mode_type',
+        'item_id',
+        'quantity',
     ];
 
     protected $casts=[
-        'transaction_type'=>transType::class ,
+        'transaction_type'=>transactionType::class ,
         'transaction_mode_type'=>transactionModeType::class ,
     ];
     // Define relationships
@@ -32,5 +34,9 @@ class transactionWarehouse extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 }

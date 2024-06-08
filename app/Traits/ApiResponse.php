@@ -30,6 +30,7 @@ trait ApiResponse
 
     protected function showOne($instance, $resource, $message = 'success',$code=200): JsonResponse
     {
+
         return $this->response($message, new $resource($instance));
     }
 

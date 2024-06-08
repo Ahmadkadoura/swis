@@ -16,7 +16,7 @@ class indexTransactionForKeeperResource extends JsonResource
     {
         return [
 
-            'transaction' => $this->transactionWarehouse->map(function ($transactionWarehouse) {
+            'transaction' => $this->transactionWarehouseItem->map(function ($transactionWarehouse) {
                 return [
                     'id' => $transactionWarehouse->transaction->id,
                     'donor_id' => $transactionWarehouse->transaction->donor->user->name,

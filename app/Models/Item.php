@@ -26,10 +26,6 @@ class Item extends Model
         'sectorType'=>sectorType::class ,
     ];
 
-    public function transactionItem()
-    {
-        return $this->hasMany(transactionItem::class);
-    }
     public function warehouseItem(){
         return $this->hasOne(WarehouseItem::class);
     }

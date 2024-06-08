@@ -15,7 +15,9 @@ class DonorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return[
-            'user'   => new UserResource($this->user),
+
+            'id'=>$this->id,
+           'user'   => new UserResource($this->user),
             'quantity' => $this->quantity,
         ];
     }

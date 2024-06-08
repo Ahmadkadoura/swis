@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TransactionFactory extends Factory
 {
-    use QrCodeHelper;
+
     /**
      * Define the model's default state.
      *
