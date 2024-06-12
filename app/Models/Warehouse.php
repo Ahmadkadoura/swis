@@ -38,7 +38,7 @@ class Warehouse extends Model
 
     public function transactionWarehouseItem()
     {
-        return $this->hasMany(transactionWarehouseItems::class);
+        return $this->hasMany(transactionWarehouseItem::class);
     }
 
     public function user()

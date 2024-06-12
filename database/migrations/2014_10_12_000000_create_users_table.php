@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->string('photo');
             $table->string('contact_email')->unique();
+            $table->string('type');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

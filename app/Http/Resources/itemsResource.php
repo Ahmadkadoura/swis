@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\sectorType;
+use App\Enums\unitType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,8 +20,8 @@ class itemsResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
-            'sectorType' => $this->sectorType,
-            'unitType' => $this->unitType,
+            'sectorType' => $this->sectorType instanceof sectorType ? $this->sectorType->name : null,
+            'unitType' => $this->unitType instanceof unitType? $this->unitType->name : null,
             'size' => $this->size,
             'weight' => $this->weight,
             'quantity in the system' => $this->quantity,

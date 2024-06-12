@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\transactionModeType;
+use App\Enums\transactionType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,8 +22,8 @@ class transactionWarehouseItemResource extends JsonResource
             'id' => $this->id,
             'transaction_id'=> $this->transaction_id,
            'Warehouse_id'=>$this->warehouse->name ?? null,
-            'transaction_type' => $this->transaction_type,
-            'transaction_mode_type' => $this->transaction_mode_type,
+            'transaction_type' => $this->transaction_type instanceof transactionType ? $this->transaction_type->name : null,
+            'transaction_mode_type' => $this->transaction_mode_type instanceof transactionModeType ? $this->transaction_mode_type->name : null,
             'item' => $this->item->name ?? null ,
             'quantity' => $this->quantity,
         ];

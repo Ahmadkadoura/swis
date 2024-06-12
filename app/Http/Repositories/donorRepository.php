@@ -2,18 +2,19 @@
 
 namespace App\Http\Repositories;
 
-use App\Models\Donor;
+use App\Enums\userType;
+use App\Models\User;
 
 class donorRepository extends baseRepository
 {
-    public function __construct(Donor $model)
+    public function __construct(User $model)
     {
         parent::__construct($model);
     }
     public function index():array
     {
 
-        $data =Donor::with('user')->paginate(10);
+        $data =User::where('type',userType::donor->value)->paginate(10);
         if ($data->isEmpty()){
             $message="There are no donors at the moment";
         }else

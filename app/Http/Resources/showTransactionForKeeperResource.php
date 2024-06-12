@@ -2,6 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\sectorType;
+use App\Enums\transactionModeType;
+use App\Enums\transactionStatusType;
+use App\Enums\transactionType;
+use App\Enums\unitType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,28 +19,35 @@ class showTransactionForKeeperResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $transactionWarehouseItem=$this->transactionWarehouseItem;
+//        dd($this->transactionWarehouseItem);
         return [
-            'transaction_id' => $this->transaction_id,
-            'warehouse' => $this->warehouse->name,
-            'donor_id' => $this->transaction->donor->user->name,
-            'is_convoy' => $this->transaction->is_convoy,
-            'notes' => $this->transaction->notes,
-            'code' => $this->transaction->code,
-            'status' => $this->transaction->status,
-            'date' => $this->transaction->date,
-            'waybill_num' => $this->transaction->waybill_num,
-            'waybill_img' => $this->transaction->imageUrl('waybill_img'),
-            'qr_code' => $this->transaction->qr,
-            'CTN' => $this->transaction->CTN,
-            'transaction_type' => $this->transaction_type,
-            'transaction_mode_type' => $this->transaction_mode_type,
-            'items'=> $this->transaction->transactionItem ->map(function ($item){
-        return new showKeeperItemResource($item);}),
-            'driver'=> $this->transaction->driverTransaction->map(function ($driver){
-        return new DriverResource($driver);
+            'transaction_id' => $this->id,
+            'donor_id' => $this->user->name,
+            'is_convoy' =>$this->is_convoy,
+            'notes' => $this->notes,
+            'code' => $this->code,
+            'status' => $this->status instanceof transactionStatusType ? $this->status->name : null,
+            'date' => $this->date,
+            'waybill_num' => $this->waybill_num,
+            'waybill_img' => $this->imageUrl('waybill_img'),
+            'qr_code' => $this->imageUrl('qr_code'),
+            'CTN' => $this->CTN,
+            'transactionWarehouse'=>$transactionWarehouseItem->map(function ($item){
+                return [
+                    'transaction_type' => $item->transaction_type instanceof transactionType ? $item->transaction_type->name : null,
+                    'transaction_mode_type' => $item->transaction_mode_type instanceof transactionModeType ? $item  ->transaction_mode_type->name : null,
+                    'warehouse' => $item->warehouse->id,];
+            }),
+            'items'=> $this->transactionWarehouseItem->map(function ($item){
+                   return new showKeeperItemResource($item);
+            }),
+            'driver'=> $this->driverTransaction->map(function ($driver){
+                    return new DriverResource($driver);
             }),
 
             ];
 
     }
+
 }

@@ -8,7 +8,7 @@ use App\Http\Requests\Transaction\storeTransactionWarehouseRequest;
 use App\Http\Requests\Transaction\UpdateTransactionWarehouseRequest;
 use App\Http\Resources\transactionWarehouseItemResource;
 use App\Http\Resources\TransactionWarehouseResource;
-use App\Models\transactionWarehouseItems;
+use App\Models\transactionWarehouseItem;
 use App\Services\TransactionWarehouseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,11 +27,11 @@ class TransactionWarehouseItemController extends Controller
     {
 
         $data = $this->transactionWarehousesRepository->index();
-        return $this->showAll($data['TransactionWarehouse'], transactionWarehouseItemResource::class, $data['message']);
+        return $this->showAll($data['TransactionWarehouseItem'], transactionWarehouseItemResource::class, $data['message']);
 
     }
 
-    public function show(transactionWarehouseItems $transactionWarehousesItem): JsonResponse
+    public function show(transactionWarehouseItem $transactionWarehousesItem): JsonResponse
     {
 
         return $this->showOne($transactionWarehousesItem, transactionWarehouseItemResource::class);
@@ -43,23 +43,24 @@ class TransactionWarehouseItemController extends Controller
         $dataItem = $request->validated();
 
         $data = $this->transactionWarehousesRepository->create($dataItem);
-        return $this->showOne($data['TransactionWarehouse'], transactionWarehouseItemResource::class, $data['message']);
+        return $this->showOne($data['TransactionWarehouseItem'], transactionWarehouseItemResource::class, $data['message']);
 
     }
 
-    public function update(UpdateTransactionWarehouseRequest $request, transactionWarehouseItems $transactionWarehouse): JsonResponse
+    public function update(UpdateTransactionWarehouseRequest $request, transactionWarehouseItem $transactionWarehousesItem): JsonResponse
     {
         $dataItem = $request->validated();
 
-        $data = $this->transactionWarehousesRepository->update($dataItem, $transactionWarehouse);
-        return $this->showOne($data['TransactionWarehouse'], transactionWarehouseItemResource::class, $data['message']);
+        $data = $this->transactionWarehousesRepository->update($dataItem, $transactionWarehousesItem);
+
+        return $this->showOne($data['TransactionWarehouseItem'], transactionWarehouseItemResource::class, $data['message']);
 
     }
 
 
-    public function destroy(transactionWarehouseItems $transactionWarehouse)
+    public function destroy(transactionWarehouseItem $transactionWarehousesItem)
     {
-        $data = $this->transactionWarehousesRepository->destroy($transactionWarehouse);
+        $data = $this->transactionWarehousesRepository->destroy($transactionWarehousesItem);
         return [$data['message'], $data['code']];
 
     }
@@ -67,7 +68,7 @@ class TransactionWarehouseItemController extends Controller
     public function showDeleted(): JsonResponse
     {
         $data=$this->transactionWarehousesRepository->showDeleted();
-        return $this->showAll($data['TransactionWarehouse'],transactionWarehouseItemResource::class,$data['message']);
+        return $this->showAll($data['TransactionWarehouseItem'],transactionWarehouseItemResource::class,$data['message']);
     }
     public function restore(Request $request){
 

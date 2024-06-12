@@ -79,8 +79,8 @@ Route::controller(WarehouseItemController::class)->group(function(){
 
 
 Route::controller(TransactionWarehouseItemController::class)->group(function(){
-    Route::post('transactionWarehouses/restore','restore');
-    Route::get('transactionWarehouses/showDeleted','showDeleted');
+    Route::post('TransactionWarehouseItem/restore','restore');
+    Route::get('TransactionWarehouseItem/showDeleted','showDeleted');
 });
 Route::controller(DonorItemController::class)->group(function(){
     Route::post('donorItems/restore','restore');
@@ -91,7 +91,7 @@ Route::get('showWarehouseForKeeper',[keeperWarehouseController::class,'show']);
 Route::get('indexItemForKeeper',[keeperItemController::class,'index']);
 Route::get('showItemForKeeper/{item_id}/{warehouse_id}',[keeperItemController::class,'show']);
 Route::get('indexTransactionForKeeper',[keeperTransactionController::class,'index']);
-Route::get('showTransactionForKeeper/{transaction_id}/{warehouse_id}',[keeperTransactionController::class,'show']);
+Route::get('showTransactionForKeeper/{transaction_id}',[keeperTransactionController::class,'show']);
 
 Route::get('indexTransactionForDonor',[DonorTransactionController::class,'index']);
 Route::get('showTransactionForDonor/{transaction_id}',[DonorTransactionController::class,'show']);

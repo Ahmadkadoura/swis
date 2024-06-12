@@ -58,7 +58,6 @@ class baseRepository
             $message = "$modelName not found";
             $code = 404;
         }
-
         return ["$modelName" => $data, 'message' => $message, 'code' => $code];
     }
 

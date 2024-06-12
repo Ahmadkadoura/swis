@@ -10,9 +10,9 @@ use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\transactionWarehouseItems>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TransactionWarehouseItem>
  */
-class TransactionWarehouseItemsFactory extends Factory
+class TransactionWarehouseItemFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +23,8 @@ class TransactionWarehouseItemsFactory extends Factory
     {
         return [
             'transaction_id' => Transaction::inRandomOrder()->first()->id,
-            'warehouse_id' => Warehouse::inRandomOrder()->first()->id,'item_id' =>Item::inRandomOrder()->first()->id ,
+            'warehouse_id' => Warehouse::inRandomOrder()->first()->id,
+            'item_id' =>Item::inRandomOrder()->first()->id ,
             'quantity' => $this->faker->numberBetween(10, 1000),
             'transaction_type' => $this->faker->randomElement(transactionType::class),
             'transaction_mode_type' => $this->faker->randomElement(transactionModeType::class),

@@ -30,9 +30,9 @@ class Transaction extends Model
         'status'=>transactionStatusType::class,
     ];
 
-    public function donor():BelongsTo
+    public function user():BelongsTo
     {
-        return $this->belongsTo(Donor::class);
+        return $this->belongsTo(User::class);
     }
 
     public function driverTransaction()
@@ -41,7 +41,7 @@ class Transaction extends Model
     }
        public function transactionWarehouseItem()
     {
-        return $this->hasMany(transactionWarehouseItems::class);
+        return $this->hasMany(transactionWarehouseItem::class);
     }
 
     public static function getDisk()

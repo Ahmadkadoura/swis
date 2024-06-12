@@ -25,7 +25,7 @@ class DonorItemController extends Controller
     public function show($item_id): JsonResponse
     {
         $data = $this->donorItemRepository->showItemForDonor(Auth::user()->id,$item_id);
-        return $this->showAll($data['donorItem'],indexItemForDonerResource::class,$data['message']);
+        return $this->showOne($data['donorItem'],indexItemForDonerResource::class,$data['message']);
     }
 
 }
