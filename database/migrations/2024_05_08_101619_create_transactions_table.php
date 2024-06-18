@@ -18,7 +18,6 @@ return new class extends Migration
             function (Blueprint $table) {
                 $table->id();
                 $table->foreignIdFor(User::class);
-                $table->foreignIdFor(Warehouse::class)->nullable();
                 $table->boolean('is_convoy');
                 $table->string('notes')->nullable();
                 $table->string('code')->nullable();

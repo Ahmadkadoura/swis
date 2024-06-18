@@ -4,6 +4,7 @@ namespace App\Http\Requests\Transaction;
 
 use App\Enums\transactionStatusType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 
 class StoreTransactionRequest extends FormRequest
@@ -24,16 +25,22 @@ class StoreTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'donor_id' => 'exists:donors,id',
-            'warehouse_id' => 'required|exists:warehouses,id',
             'is_convoy' => 'required|boolean',
             'notes' => 'nullable|string',
-            'status' => 'required',new Enum(transactionStatusType::class),
+            'status' => ['required', new Enum(TransactionStatusType::class)],
             'date' => 'required|date|after:yesterday',
             'waybill_num' => 'required|integer',
             'waybill_img' => 'required|image',
-            'qr_code' => 'image',
-            'CTN' => 'string',
+            'qr_code' => 'nullable|image',
+            'CTN' => 'nullable|string',
+            'items' => 'required|array',
+            'items.*.warehouse_id' => 'required|exists:warehouses,id',
+            'items.*.item_id' => 'required|exists:items,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.transaction_type' => 'required|string',
+            'items.*.type' => 'required|string',
+            'drivers' => 'required|array',
+            'drivers.*driver_id' => 'required|exists:drivers,id',
         ];
     }
 }

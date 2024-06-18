@@ -24,16 +24,22 @@ class UpdateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'donor_id' => 'exists:donors,id',
-            'warehouse_id' => 'exists:warehouses,id',
-            'is_convoy' => 'boolean',
+            'is_convoy' => 'sometimes|boolean',
             'notes' => 'nullable|string',
-            'status' => new Enum(transactionStatusType::class),
-            'date' => 'date',
-            'waybill_num' => 'integer',
-            'waybill_img' => [ 'image'],
-            'qr_code' => 'image',
-            'CTN' => 'string',
+            'status' => ['sometimes', new Enum(TransactionStatusType::class)],
+            'date' => 'sometimes|date|after:yesterday',
+            'waybill_num' => 'sometimes|integer',
+            'waybill_img' => 'sometimes|image',
+            'qr_code' => 'nullable|image',
+            'CTN' => 'nullable|string',
+            'items' => 'sometimes|array',
+            'items.*.warehouse_id' => 'sometimes|exists:warehouses,id',
+            'items.*.item_id' => 'sometimes|exists:items,id',
+            'items.*.quantity' => 'sometimes|integer|min:1',
+            'items.*.transaction_type' => 'sometimes|string',
+            'items.*.type' => 'sometimes|string',
+            'drivers' => 'sometimes|array',
+            'drivers.*.driver_id' => 'sometimes|exists:drivers,id',
 
         ];
     }

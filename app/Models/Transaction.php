@@ -13,8 +13,7 @@ class Transaction extends Model
 {
     use HasFactory,SoftDeletes;
     protected $fillable = [
-        'donor_id',
-        'warehouse_id',
+        'user_id',
         'is_convoy',
         'notes',
         'code',

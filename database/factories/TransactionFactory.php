@@ -25,7 +25,6 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'warehouse_id' =>Warehouse::inRandomOrder()->first()->id ,
             'user_id' => User::inRandomOrder()->first()->id,
             'is_convoy' => $this->faker->boolean(),
             'notes' => $this->faker->optional()->sentence,

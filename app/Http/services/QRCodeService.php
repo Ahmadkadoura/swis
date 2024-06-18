@@ -32,7 +32,7 @@ class QRCodeService
         ];
         $options->eccLevel = EccLevel::H;
         $options->addLogoSpace = true;
-        $options->logoSpaceWidth = 13;
+        $options->logoSpaceWidth = 19;
         $options->logoSpaceHeight = 13;
         $qrcode = new QRCode($options);
         $qrcode->addByteSegment($data);

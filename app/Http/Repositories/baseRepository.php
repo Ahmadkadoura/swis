@@ -27,7 +27,7 @@ class baseRepository
         return ['message'=>$message,"$modelName"=>$data];
     }
 
-    public function create($request):array
+    public function create( $request):array
     {
 
         $modelName = class_basename($this->model);
