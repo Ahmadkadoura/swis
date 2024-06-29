@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained();
             $table->foreignId('warehouse_id')->constrained();
             $table->string('transaction_type');
+            $table->string('transaction_type_ar')->nullable();
             $table->string('transaction_mode_type');
+            $table->string('transaction_mode_type_ar')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

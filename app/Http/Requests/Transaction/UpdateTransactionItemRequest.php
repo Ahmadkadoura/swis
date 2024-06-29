@@ -22,8 +22,9 @@ class UpdateTransactionItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'driver_id' => 'exists:drivers,id',
+            'item_id' => 'exists:items,id',
             'transaction_id' => 'exists:transactions,id',
+            'quantity' => 'integer|gt:0'
         ];
     }
 }

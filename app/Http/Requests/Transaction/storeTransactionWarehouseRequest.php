@@ -28,7 +28,9 @@ class storeTransactionWarehouseRequest extends FormRequest
             'transaction_id' => 'required|exists:transactions,id',
             'warehouse_id' => 'required|exists:warehouses,id',
             'transaction_type' => 'required',new Enum(transType::class),
+            'transaction_type_ar' => new Enum(transType::class),
             'transaction_mode_type' => 'required',new Enum(transactionModeType::class),
+            'transaction_mode_type_ar' => new Enum(transactionModeType::class),
         ];
     }
 }

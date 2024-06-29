@@ -22,8 +22,9 @@ class storeTransactionItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'driver_id' => 'required|exists:drivers,id',
+            'item_id' => 'required|exists:items,id',
             'transaction_id' => 'required|exists:transactions,id',
+            'quantity' => 'required|integer|gt:0'
         ];
     }
 }

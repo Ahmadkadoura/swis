@@ -24,7 +24,7 @@ class UpdateDonorItemRequest extends FormRequest
         return [
             'donor_id' => 'exists:donors,id',
             'item_id' => 'exists:items,id',
-            'quantity' => 'integer|min=1',
+            'quantity' => 'integer|min:1',
         ];
     }
 }

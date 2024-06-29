@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_ar')->nullable();
             $table->string('code')->nullable();
             $table->integer('parent_id')->nullable()->onDelete('cascade');
             $table->string('phone')->unique();
             $table->string('address');
+            $table->string('address_ar')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -13,9 +13,11 @@ class Driver extends Model
   protected $fillable= [
       'id',
       'name',
+      'name_ar',
       'vehicle_number',
       'national_id',
       'transportation_company_name',
+      'transportation_company_name_ar',
       'phone',
   ];
 

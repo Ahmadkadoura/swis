@@ -29,8 +29,10 @@ class StoreDriverRequests extends FormRequest
             'vehicle_number' => ['required', 'string'],
             'national_id' => ['required', 'string'],
             'name' => ['required', 'string'],
+            'name_ar' => ['string'],
             'phone' => ['required',Rule::unique('drivers', 'phone')],
             'transportation_company_name' => ['required', 'string'],
+            'transportation_company_name_ar' => ['string'],
         ];
     }
 

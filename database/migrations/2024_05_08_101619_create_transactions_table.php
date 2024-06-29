@@ -20,8 +20,10 @@ return new class extends Migration
                 $table->foreignId('warehouse_id')->constrained();
                 $table->boolean('is_convoy');
                 $table->string('notes')->nullable();
+                $table->string('notes_ar')->nullable();
                 $table->string('code')->nullable();
                 $table->string('status');
+                $table->string('status_ar')->nullable();
                 $table->date('date');
                 $table->integer('waybill_num');
                 $table->string('waybill_img');
