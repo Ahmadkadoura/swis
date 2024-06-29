@@ -16,7 +16,7 @@ class DonorItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'donor' => $this->donor->user->name,
+            'donor' => $this->user->name,
             'items'=>$this->item->map(function ($Item){
                 return new itemsResource($Item);}),
             'quantity from this donor' => $this->quantity,

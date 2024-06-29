@@ -28,7 +28,7 @@ class itemController extends Controller
     public function show($item_id,$warehouse_id): JsonResponse
     {
         $data=$this->itemRepository->showItemForKeeper($item_id,$warehouse_id);
-        return $this->showOne($data['Item'],showKeeperItemResource::class,$data['message']);
+        return $this->showAll($data['WarehouseItem'],showKeeperItemResource::class,$data['message']);
 
     }
 }

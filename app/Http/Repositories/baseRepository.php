@@ -27,7 +27,7 @@ class baseRepository
         return ['message'=>$message,"$modelName"=>$data];
     }
 
-    public function create($request):array
+    public function create( $request):array
     {
 
         $modelName = class_basename($this->model);
@@ -58,7 +58,6 @@ class baseRepository
             $message = "$modelName not found";
             $code = 404;
         }
-
         return ["$modelName" => $data, 'message' => $message, 'code' => $code];
     }
 

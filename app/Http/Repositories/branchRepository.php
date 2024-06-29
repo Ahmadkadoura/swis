@@ -4,7 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Models\Branch;
 
-class branchRrpository extends baseRepository
+class branchRepository extends baseRepository
 {
     public function __construct(Branch $model)
     {

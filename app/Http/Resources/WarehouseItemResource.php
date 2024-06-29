@@ -16,6 +16,7 @@ class WarehouseItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name'=>$this->warehouse->name ?? null,
            ' item' => [
                 'id' =>$this->item_id,
                 'name' =>$this->item->name ?? null ],

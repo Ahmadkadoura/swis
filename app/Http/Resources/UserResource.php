@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\userType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -24,6 +25,7 @@ class UserResource extends JsonResource
             'code' => $this->code,
             'contact_email' => $this->contact_email,
             'photo' => $this->imageUrl('photo'),
+            'type' => $this->type instanceof userType ? $this->type->name : null, // Convert enum to integer value
 
         ];
     }

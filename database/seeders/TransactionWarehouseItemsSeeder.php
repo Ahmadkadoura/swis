@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\transactionItem;
+use App\Models\transactionWarehouseItem;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TransactionItemSeeder extends Seeder
+class TransactionWarehouseItemsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        transactionItem::factory(10)->create();
+        transactionWarehouseItem::factory()->count(15)->create();
+
     }
 }

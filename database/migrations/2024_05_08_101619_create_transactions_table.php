@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Donor;
+use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,8 +17,7 @@ return new class extends Migration
         Schema::create('transactions',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('donor_id')->constrained()->nullable();
-                $table->foreignId('warehouse_id')->constrained();
+                $table->foreignIdFor(User::class);
                 $table->boolean('is_convoy');
                 $table->string('notes')->nullable();
                 $table->string('notes_ar')->nullable();

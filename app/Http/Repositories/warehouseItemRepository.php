@@ -14,7 +14,7 @@ class warehouseItemRepository extends baseRepository
     {
 
 
-        $data =WarehouseItem::with('item')->paginate(10);
+        $data =WarehouseItem::with('item','warehouse')->paginate(10);
         if ($data->isEmpty()){
             $message="There are no item at the moment";
         }else

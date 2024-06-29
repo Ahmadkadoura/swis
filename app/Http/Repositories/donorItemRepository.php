@@ -14,7 +14,7 @@ class donorItemRepository extends baseRepository
     public function index():array
     {
 
-        $data =donorItem::with('donor.user','item')->paginate(10);
+        $data =donorItem::with('user','item')->paginate(10);
         if ($data->isEmpty()){
             $message="There are no donors at the moment";
         }else
@@ -25,7 +25,7 @@ class donorItemRepository extends baseRepository
     }
     public function show(donorItem $donorItem)
     {
-        $data =$donorItem->with('donor.user','item')->first();
+        $data =$donorItem->with('user','item')->first();
         if ($data->isEmpty()){
             $message="There are no donors item at the moment";
         }else
@@ -38,28 +38,28 @@ class donorItemRepository extends baseRepository
     public function indexItemForDonor($donor_id):array
     {
 
-        $data =donorItem::where('donor_id', $donor_id)
-        ->with('donor.user','item')->paginate(10);
+        $data =donorItem::where('user_id', $donor_id)
+        ->with('user','item')->paginate(10);
         if ($data->isEmpty()){
             $message="There are no donors at the moment";
         }else
         {
             $message="Donor indexed successfully";
         }
-        return ['message'=>$message,"Donor"=>$data];
+        return ['message'=>$message,"donorItem"=>$data];
     }
 
     public function showItemForDonor($donor_id,$item_id)
     {
-        $data =donorItem::where('donor_id', $donor_id)
+        $data =donorItem::where('user_id', $donor_id)
             ->where('item_id',$item_id)
-            ->with('donor.user','item')->first();
-        if ($data->isEmpty()){
-            $message="There are no donors at the moment";
-        }else
-        {
+            ->with('user','item')->first();
+//        if ($data->isEmpty()){
+//            $message="There are no donors at the moment";
+//        }else
+//        {
             $message="Donor indexed successfully";
-        }
-        return ['message'=>$message,"Donor"=>$data];
+//        }
+        return ['message'=>$message,"donorItem"=>$data];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\sectorType;
+use App\Enums\unitType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,14 +16,15 @@ class showKeeperItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $item=$this->item;
         return [
-            'id' => $this->item->id,
-            'name' => $this->item->name,
-            'code' => $this->item->code,
-            'sectorType' => $this->item->sector,
-            'unitType' => $this->item->unit,
-            'size' => $this->item->size,
-            'weight' => $this->item->weight,
+            'id' => $item->id,
+            'name' => $item->name,
+            'code' => $item->code,
+            'sectorType' => $item->sectorType instanceof sectorType ? $item->sectorType->name : null,
+            'unitType' => $item->unitType instanceof unitType ? $item->unitType->name : null,
+            'size' => $item->size,
+            'weight' => $item->weight,
             'quantity' => $this->quantity,
         ];
     }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Donor;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class DonorItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'donor_id' => Donor::inRandomOrder()->first()->id ,
+            'user_id' => User::inRandomOrder()->first()->id ,
             'item_id' => Item::inRandomOrder()->first()->id ,
             'quantity' => $this->faker->numberBetween(1, 100),
         ];

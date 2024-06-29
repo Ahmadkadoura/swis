@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Api\MustVerifyEmail;
+use App\Enums\userType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -32,6 +33,7 @@ class User extends Authenticatable
         'code',
         'contact_email',
         'photo',
+        'type',
     ];
 
     /**
@@ -51,10 +53,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'type' => userType::class,
+
     ];
-    public function donor()
+
+    public function wharehouse()
     {
-        return $this->hasOne(Donor::class);
+        return $this->hasOne(Warehouse::class);
     }
 
     public static function getDisk()

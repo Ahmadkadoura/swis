@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Transaction;
 
 use App\Enums\transactionModeType;
-use App\Enums\transType;
+use App\Enums\transactionType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -29,8 +29,11 @@ class storeTransactionWarehouseRequest extends FormRequest
             'warehouse_id' => 'required|exists:warehouses,id',
             'transaction_type' => 'required',new Enum(transType::class),
             'transaction_type_ar' => new Enum(transType::class),
+            'transaction_type' => 'required',new Enum(transactionType::class),
             'transaction_mode_type' => 'required',new Enum(transactionModeType::class),
             'transaction_mode_type_ar' => new Enum(transactionModeType::class),
+            'quantity' => ['required', 'numeric', 'min:1'],
+            'item_id'=>'required|integer'
         ];
     }
 }

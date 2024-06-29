@@ -13,8 +13,7 @@ class Transaction extends Model
 {
     use HasFactory,SoftDeletes;
     protected $fillable = [
-        'donor_id',
-        'warehouse_id',
+        'user_id',
         'is_convoy',
         'notes',
         'notes_ar',
@@ -32,25 +31,18 @@ class Transaction extends Model
         'status'=>transactionStatusType::class,
     ];
 
-    public function donor():BelongsTo
+    public function user():BelongsTo
     {
-        return $this->belongsTo(Donor::class);
+        return $this->belongsTo(User::class);
     }
 
     public function driverTransaction()
     {
         return $this->hasMany(transactionDriver::class);
     }
-
-
-    public function transactionItem()
+       public function transactionWarehouseItem()
     {
-        return $this->hasMany(transactionItem::class);
-    }
-
-    public function transactionWarehouse()
-    {
-        return $this->hasMany(transactionWarehouse::class);
+        return $this->hasMany(transactionWarehouseItem::class);
     }
 
     public static function getDisk()

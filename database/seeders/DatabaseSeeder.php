@@ -19,11 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call([ItemSeeder::class]);
         $this->call([WarehouseSedder::class]);
         $this->call([WarehouseItemSeeder::class]);
-        $this->call([DonorSeeder::class]);
         $this->call([TransactionSeeder::class]);
         $this->call([TransactionDriverSeeder::class]);
-        $this->call([TransactionItemSeeder::class]);
-        $this->call([TransactionWarehouseSeeder::class]);
+        $this->call([TransactionWarehouseItemsSeeder::class]);
         $this->call([ DonorItemSeeder::class]);
 
 

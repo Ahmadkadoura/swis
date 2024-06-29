@@ -20,14 +20,15 @@ class transactionController extends Controller
      }
      public function index(): JsonResponse
      {
+         var_dump(Auth::user()->id);
          $data=$this->transactionRepository->indexTransactionForKeeper(Auth::user()->id);
          return $this->showAll($data['Transaction'],indexTransactionForKeeperResource::class,$data['message']);
      }
 
-    public function show($transaction_id,$warehouse_id): JsonResponse
+    public function show($transaction_id): JsonResponse
     {
-        $data=$this->transactionRepository->showTransactionForKeeper($transaction_id,$warehouse_id);
-        return $this->showOne($data['Item'],showTransactionForKeeperResource::class,$data['message']);
+        $data=$this->transactionRepository->showTransactionForKeeper($transaction_id);
+        return $this->showOne($data,showTransactionForKeeperResource::class,'Item showed successfully');
 
     }
 }

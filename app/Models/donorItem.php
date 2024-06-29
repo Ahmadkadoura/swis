@@ -25,9 +25,9 @@ class donorItem extends Model
     /**
      * Get the donor that owns the DonorItem.
      */
-    public function donor():BelongsTo
+    public function user():BelongsTo
     {
-        return $this->belongsTo(Donor::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
