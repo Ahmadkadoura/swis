@@ -12,9 +12,43 @@ class warehouseRepository extends baseRepository
     }
     public function index():array
     {
-
-
-        $data =Warehouse::with('user','branch','parentWarehouse','warehouseItem.item')->paginate(10);
+        $data =Warehouse::with('user','branch','parentWarehouse')->paginate(10);
+        if ($data->isEmpty()){
+            $message="There are no Warehouse at the moment";
+        }else
+        {
+            $message="Warehouse indexed successfully";
+        }
+        return ['message'=>$message,"Warehouse"=>$data];
+    }
+    public function indexSubWarehouse($warehouse_id):array
+    {
+        $data =Warehouse::where('parent_id',$warehouse_id)
+            ->with('user','branch','parentWarehouse')->paginate(10);
+        if ($data->isEmpty()){
+            $message="There are no Warehouse at the moment";
+        }else
+        {
+            $message="Warehouse indexed successfully";
+        }
+        return ['message'=>$message,"Warehouse"=>$data];
+    }
+    public function indexMainWarehouse():array
+    {
+        $data =Warehouse::where('parent_id',false)
+            ->with('user','branch')->paginate(10);
+        if ($data->isEmpty()){
+            $message="There are no Warehouse at the moment";
+        }else
+        {
+            $message="Warehouse indexed successfully";
+        }
+        return ['message'=>$message,"Warehouse"=>$data];
+    }
+    public function indexDistributionPoint():array
+    {
+        $data =Warehouse::where('is_Distribution_point',true)
+            ->with('user','branch')->paginate(10);
         if ($data->isEmpty()){
             $message="There are no Warehouse at the moment";
         }else

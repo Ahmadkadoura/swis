@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\warehouseRepository;
 use App\Http\Requests\Warehouse\StoreWarehouseRequest;
 use App\Http\Requests\Warehouse\UpdateWarehouseRequest;
+use App\Http\Resources\indexMainWarehouseResource;
+use App\Http\Resources\indexWarehouseResource;
 use App\Http\Resources\WarehouseResource;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -32,7 +34,7 @@ class WarehouseController extends Controller
     {
 
             $data=$this->warehouseRepository->index();
-        return $this->showAll($data['Warehouse'],WarehouseResource::class,$data['message']);
+        return $this->showAll($data['Warehouse'],indexWarehouseResource::class,$data['message']);
 
     }
 
@@ -94,6 +96,26 @@ class WarehouseController extends Controller
     {
         $data = $this->warehouseRepository->showWarehouseForKeeper(Auth::user()->id);
         return $this->showAll($data['Warehouse'],showKeeperItemResource::class,$data['message']);
+    }
+    public function indexSubWarehouse($warehouse_id): JsonResponse
+    {
+
+        $data=$this->warehouseRepository->indexSubWarehouse($warehouse_id);
+        return $this->showAll($data['Warehouse'],indexWarehouseResource::class,$data['message']);
+
+    }
+    public function indexMainWarehouse(): JsonResponse
+    {
+
+        $data=$this->warehouseRepository->indexMainWarehouse();
+        return $this->showAll($data['Warehouse'],indexMainWarehouseResource::class,$data['message']);
+
+    }
+    public function indexDistributionPoint():JsonResponse
+    {
+        $data=$this->warehouseRepository->indexDistributionPoint();
+        return $this->showAll($data['Warehouse'],indexMainWarehouseResource::class,$data['message']);
+
     }
 
 }
