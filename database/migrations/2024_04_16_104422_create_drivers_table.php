@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_ar')->nullable();
             $table->string('vehicle_number');
             $table->string('national_id')->unique();
             $table->string('transportation_company_name')->nullable();
+            $table->string('transportation_company_name_ar')->nullable();
             $table->string('phone')->unique();
             $table->timestamps();
             $table->softDeletes();

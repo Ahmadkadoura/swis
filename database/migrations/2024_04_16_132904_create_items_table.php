@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_ar')->nullable();
             $table->string('code')->nullable();
             $table->string('sectorType');
+            $table->string('sectorType_ar')->nullable();
             $table->string('unitType');
+            $table->string('unitType_ar')->nullable();
             $table->integer('size');
             $table->integer('weight');
             $table->integer('quantity');

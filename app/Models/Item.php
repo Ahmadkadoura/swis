@@ -14,9 +14,12 @@ class Item extends Model
     use HasFactory,SoftDeletes;
     protected $fillable =[
         'name',
+        'name_ar',
         'code',
         'sectorType',
+        'sectorType_ar',
         'unitType',
+        'unitType_ar',
         'size',
         'weight',
         'quantity',

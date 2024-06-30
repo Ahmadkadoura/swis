@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use App\Models\Branch;
 use App\Models\Item;
 use App\Models\User;
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         // if (!app()->isProduction()) {
         //     Model::shouldBeStrict();
         // }
+        Schema::defaultStringLength(191);
         User::observe(UserObserver::class);
         Warehouse::observe(WarehouseObserver::class);
         Branch::observe(BranchObserver::class);

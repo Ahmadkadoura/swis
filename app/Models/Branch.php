@@ -14,10 +14,12 @@ class Branch extends Model
     protected $fillable = [
         'id',
         'name',
+        'name_ar',
         'code',
         'parent_id',
         'phone',
         'address',
+        'address_ar',
     ];
 
     public function warehouse(){

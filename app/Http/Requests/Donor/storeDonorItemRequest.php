@@ -24,7 +24,7 @@ class storeDonorItemRequest extends FormRequest
         return [
             'donor_id' => 'required|exists:donors,id',
             'item_id' => 'required|exists:items,id',
-            'quantity' => 'required|integer|min=1',
+            'quantity' => 'required|integer|min:1',
         ];
     }
 }

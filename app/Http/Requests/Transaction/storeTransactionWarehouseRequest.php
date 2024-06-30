@@ -27,8 +27,11 @@ class storeTransactionWarehouseRequest extends FormRequest
         return [
             'transaction_id' => 'required|exists:transactions,id',
             'warehouse_id' => 'required|exists:warehouses,id',
+            'transaction_type' => 'required',new Enum(transType::class),
+            'transaction_type_ar' => new Enum(transType::class),
             'transaction_type' => 'required',new Enum(transactionType::class),
             'transaction_mode_type' => 'required',new Enum(transactionModeType::class),
+            'transaction_mode_type_ar' => new Enum(transactionModeType::class),
             'quantity' => ['required', 'numeric', 'min:1'],
             'item_id'=>'required|integer'
         ];

@@ -30,8 +30,11 @@ class storeItemsRequests extends FormRequest
         return [
             'code' => [ 'string'],
             'sectorType' => ['required', new Enum(sectorType::class)],
+            'sectorType_ar' => [ new Enum(sectorType::class)],
             'unitType' => ['required', new Enum(unitType::class)],
+            'unitType_ar' => [ new Enum(unitType::class)],
             'name' => ['required', 'string','min:4'],
+            'name_ar' => ['string','min:4'],
             'size' => ['required', 'numeric', 'min:1'],
             'weight' => ['required', 'numeric', 'min:1'],
             'quantity' => ['required', 'numeric', 'min:1'],
