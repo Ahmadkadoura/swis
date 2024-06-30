@@ -12,6 +12,7 @@ class Branch extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
+        'id',
         'name',
         'code',
         'parent_id',

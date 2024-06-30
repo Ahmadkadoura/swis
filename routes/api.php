@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(BranchController::class)->group(function(){
     Route::post('branches/restore','restore');
     Route::get('branches/showDeleted','showDeleted');
+    Route::get('branches/indexSubBranch/{Branch}','indexSubBranch');
+    Route::get('branches/indexMainBranch','indexMainBranch');
 });
 
 Route::controller(DriverController::class)->group(function(){

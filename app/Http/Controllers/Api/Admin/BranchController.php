@@ -8,6 +8,7 @@ use App\Http\Repositories\branchRepository;
 use App\Http\Requests\Branch\StoreBranchRequest;
 use App\Http\Requests\Branch\UpdateBranchRequest;
 use App\Http\Resources\BranchResource;
+use App\Http\Resources\indexMainBranchResource;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Http\Responses\Response;
@@ -48,6 +49,16 @@ class BranchController extends Controller
             $data=$this->branchRepository->create($newData);
         return $this->showOne($data['Branch'],BranchResource::class,$data['message']);
 
+    }
+    public function indexSubBranch($branch):JsonResponse
+    {
+
+        $data=$this->branchRepository->indexSubBranch( $branch);
+        return $this->showAll($data['Branch'],BranchResource::class,$data['message']);
+    } public function indexMainBranch():JsonResponse
+    {
+        $data=$this->branchRepository->indexMainBranch();
+        return $this->showAll($data['Branch'],indexMainBranchResource::class,$data['message']);
     }
 
 
